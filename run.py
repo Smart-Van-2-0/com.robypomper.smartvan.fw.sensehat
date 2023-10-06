@@ -14,19 +14,15 @@ from fw_sensehat.dbus.daemon import *
 from fw_sensehat.sense.mappings import PROPS_CODES, CALC_PROPS_CODES
 
 """ Name of the current script """
-FW_NAME = "FW UPS Pack v3"
+FW_NAME = "FW Sense Hat"
 """ Description of the current script """
 FW_DESC = "Python script as {} firmware".format(FW_NAME)
 """ Group of the current script """
-FW_GROUP = "com.robypomper.smartvan.fw.ups"
+FW_GROUP = "com.robypomper.smartvan.fw.sensehat"
 """ Version of the current script """
 FW_VERSION = "1.0.0-DEV"
-""" Value to use as default serial port """
-DEF_SERIAL_PORT = "/dev/ttyAMA0"
-""" Value to use as default serial port speed """
-DEF_SERIAL_SPEED = 9600
 """ Value to use as default DBus name """
-DEF_DBUS_NAME = "com.upspack"
+DEF_DBUS_NAME = "com.sensehat"
 """ Value to use as default DBus object path, if none  """
 DEF_DBUS_OBJ_PATH = None
 """ Value to use as default DBus object interface """
@@ -74,10 +70,6 @@ def _cli_args():
 
     parser = argparse.ArgumentParser(description=FW_DESC)
     group01 = parser.add_argument_group()
-    group01.add_argument('--port', default=DEF_SERIAL_PORT,
-                         help='Serial port')
-    group01.add_argument('--speed', type=int, default=DEF_SERIAL_SPEED,
-                         help='Serial port speed')
     group01.add_argument('--simulate', default=False, action="store_true", required=False,
                          help='Simulate a Device with id \'0xA060\'')
 
@@ -141,40 +133,39 @@ def _init_logging(dev, debug, quiet):
     return root_logger
 
 
-def _init_device(port, speed, wait_connection=True, simulate_dev=False) -> Device:
+def _init_device(wait_connection=True, simulate_dev=False) -> Device:
     """ Init and configure Device. """
 
     global must_shutdown, dev_global
 
     if simulate_dev:
-        logger.debug("Simulate device '{} at {}'...".format(port, speed))
-        return DeviceSimulator(port, speed)
+        logger.debug("Simulate device")
+        return DeviceSimulator()
 
-    logger.info("Connecting to '{} at {}'...".format(port, speed))
-    dev = Device(port, speed, False)
+    dev = Device(False)
     dev_global = dev
-    logger.debug("Read first data from device at '{}' port...".format(port))
+    logger.debug("Read first data from device...")
     dev.refresh()
 
     if must_shutdown:
         logger.warning("Received terminate signal during Device initialization, exit.")
     elif not dev.is_connected and wait_connection:
-        logger.warning("Port '{}' not available, retry in {} seconds. Press (Ctrl+C) to exit.".format(port, CONN_RETRY))
+        logger.warning("Device not available, retry in {} seconds. Press (Ctrl+C) to exit.".format(CONN_RETRY))
         try:
             must_shutdown = False
             while not dev.is_connected and not must_shutdown:
                 time.sleep(CONN_RETRY)
                 dev.refresh()
                 if not dev.is_connected:
-                    logger.debug("Port '{}' still not available, retry in {} seconds.".format(port, CONN_RETRY))
+                    logger.debug("Device still not available, retry in {} seconds.".format(CONN_RETRY))
         except KeyboardInterrupt:
             logger.info("Terminating required by the user.")
             exit(EXIT_INIT_TERMINATED)
 
     if dev.is_connected:
-        logger.info("Connected to {} device version '{}'.".format("SmartUPS", dev.device_pid))
+        logger.info("Connected to Device '{}'.".format(dev.device_pid))
     else:
-        logger.info("Initialized Device at port '{}', but not connected.".format(port))
+        logger.info("Initialized Device, but not connected.")
     return dev
 
 
@@ -322,13 +313,13 @@ def __handle_kill_signals(signo, _stack_frame):
     must_shutdown = True
 
 
-def main(port, speed, dbus_name, obj_path=None, dbus_iface=None, simulate_dev=False):
+def main(dbus_name, obj_path=None, dbus_iface=None, simulate_dev=False):
     """ Initialize a Device to read data and a DBus Object to share collected data. """
     _register_kill_signals()
 
     # Init Device
     try:
-        dev = _init_device(port, speed, True, simulate_dev)
+        dev = _init_device(True, simulate_dev)
         if not dev.is_connected and must_shutdown:
             exit(0)
     except Exception as err:
@@ -392,5 +383,5 @@ if __name__ == '__main__':
         args.quiet = False
 
     logger = _init_logging(args.dev, args.debug, args.quiet)
-    main(args.port, args.speed, args.dbus_name, args.dbus_obj_path, args.dbus_iface, args.simulate)
+    main(args.dbus_name, args.dbus_obj_path, args.dbus_iface, args.simulate)
     exit(EXIT_SUCCESS)
