@@ -3,7 +3,12 @@
 import time
 import math
 import smbus
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+    _gpio_loaded = True
+except:
+    print("WARN: RPi.GPIO module disabled.")
+    _gpio_loaded = False
 
 
 #GPIO 
@@ -216,9 +221,10 @@ class TCS34087:
         self.address = address
         self.debug = debug
         #Set GPIO mode
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(INT_PORT, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        if _gpio_loaded:
+            GPIO.setwarnings(False)
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setup(INT_PORT, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         if (self.debug):
           print("Reseting TCS34087")
 
@@ -308,9 +314,10 @@ class TCS34087:
 
 
     def GetLux_Interrupt(self):
-        if(GPIO.input(INT_PORT) == GPIO.LOW):
-            self.Clear_Interrupt_Flag()
-            return 1
+        if _gpio_loaded:
+            if(GPIO.input(INT_PORT) == GPIO.LOW):
+                self.Clear_Interrupt_Flag()
+                return 1
         
         return 0
 

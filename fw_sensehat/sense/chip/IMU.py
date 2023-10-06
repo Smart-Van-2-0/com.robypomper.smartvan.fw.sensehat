@@ -131,7 +131,7 @@ class IMU(object):
       print("QMI8658_init fail\n")
       return 0
     else:
-      print("QMI8658_init slave=0x%x  QMI8658Register_WhoAmI=0x%x 0x%x\n" % (I2C_ADD_IMU_QMI8658,self._read_byte(I2C_ADD_IMU_QMI8658,0x00),self._read_byte(I2C_ADD_IMU_QMI8658,0x01)))
+      #print("QMI8658_init slave=0x%x  QMI8658Register_WhoAmI=0x%x 0x%x\n" % (I2C_ADD_IMU_QMI8658,self._read_byte(I2C_ADD_IMU_QMI8658,0x00),self._read_byte(I2C_ADD_IMU_QMI8658,0x01)))
       self._write_byte(I2C_ADD_IMU_QMI8658,QMI8658Register_Ctrl1,0x60) # 设置为I2C通信
 
       self._write_byte(I2C_ADD_IMU_QMI8658,QMI8658Register_Ctrl2,QMI8658AccRange_2g | QMI8658AccOdr_1000Hz) # 设置加速度模式  2g 1000Hz
@@ -143,7 +143,7 @@ class IMU(object):
       print("AK09918 init fail\r\n")
       return 0
     else:
-      print("AK09918 init Success\r\n")
+      #print("AK09918 init Success\r\n")
       self._write_byte(I2C_ADD_IMU_AK09918,AK09918_CNTL3,AK09918_SRST_BIT) # 复位AK09918
       self._write_byte(I2C_ADD_IMU_AK09918,AK09918_CNTL2,AK09918_CONTINUOUS_20HZ) # 设置磁力计模式
 
@@ -317,16 +317,16 @@ class IMU(object):
     q2 = q2 * norm
     q3 = q3 * norm
 
-  def icm20948CalAvgValue(self):
-    MotionVal[0]=Gyro[0]/32.8
-    MotionVal[1]=Gyro[1]/32.8
-    MotionVal[2]=Gyro[2]/32.8
-    MotionVal[3]=Accel[0]
-    MotionVal[4]=Accel[1]
-    MotionVal[5]=Accel[2]
-    MotionVal[6]=Mag[0]
-    MotionVal[7]=Mag[1]
-    MotionVal[8]=Mag[2]
+  def icm20948CalAvgValue(self, motionVal):
+    motionVal[0]=Gyro[0]/32.8
+    motionVal[1]=Gyro[1]/32.8
+    motionVal[2]=Gyro[2]/32.8
+    motionVal[3]=Accel[0]
+    motionVal[4]=Accel[1]
+    motionVal[5]=Accel[2]
+    motionVal[6]=Mag[0]
+    motionVal[7]=Mag[1]
+    motionVal[8]=Mag[2]
     
 if __name__ == '__main__':
   import time
@@ -337,7 +337,7 @@ if __name__ == '__main__':
     try:
         imu.QMI8658_Gyro_Accel_Read()
         imu.AK09918_MagRead()
-        imu.icm20948CalAvgValue()
+        imu.icm20948CalAvgValue(MotionVal)
         imu.imuAHRSupdate(MotionVal[0] * 0.0175, MotionVal[1] * 0.0175,MotionVal[2] * 0.0175,
                     MotionVal[3],MotionVal[4],MotionVal[5], 
                     MotionVal[6], MotionVal[7], MotionVal[8])

@@ -2,7 +2,12 @@
 # -*- coding: UTF-8 -*-
 from __future__ import print_function
 import time
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+    _gpio_loaded = True
+except:
+    print("WARN: RPi.GPIO module disabled.")
+    _gpio_loaded = False
 from TCS34087 import TCS34087
 
 try:
@@ -27,6 +32,7 @@ try:
         print("INT: %d "%Light.GetLux_Interrupt())
 
 except:
-    GPIO.cleanup()
+    if _gpio_loaded:
+        GPIO.cleanup()
     print ("\nProgram end")
     exit()
