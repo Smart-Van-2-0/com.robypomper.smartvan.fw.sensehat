@@ -9,6 +9,9 @@ machine:
 * [Monitor DBus from 2nd shell](#monitor-dbus-from-2nd-shell)
 * [Configure SSH keys to avoid password usage](#configure-ssh-keys-to-avoid-password-usage)
 
+**NB!*: on Raspberry Pi you need to enable the I2C port within the
+`/boot/configs.txt` file with the line: `dtparam=i2c_arm=on`.
+
 ## Copy sources to remote machine
 
 1. Connect and create dir into remote machine
@@ -45,7 +48,7 @@ machine:
   (rpi)$ cd dev/fw_sensehat
   (rpi)$ python -m venv venv           # Optional: only for venv support
   (rpi)$ source venv/bin/activate      # Optional: only for venv support
-  (rpi-venv)$ pip install -R requirements.txt
+  (rpi-venv)$ pip install -r requirements.txt
   ```
 
 ## Run on remote machine
