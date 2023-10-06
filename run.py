@@ -20,7 +20,7 @@ FW_DESC = "Python script as {} firmware".format(FW_NAME)
 """ Group of the current script """
 FW_GROUP = "com.robypomper.smartvan.fw.sensehat"
 """ Version of the current script """
-FW_VERSION = "1.0.0-DEV"
+FW_VERSION = "1.0.0"
 """ Value to use as default DBus name """
 DEF_DBUS_NAME = "com.waveshare.sensehat"
 """ Value to use as default DBus object path, if none  """
