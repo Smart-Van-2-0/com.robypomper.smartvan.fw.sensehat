@@ -8,7 +8,7 @@ the [Smart Van Project](https://smartvan.johnosproject.org/).
 
 **FW Name:** FW Sense Hat<br />
 **FW Group:** com.robypomper.smartvan.fw.sensehat<br />
-**FW Version:** 1.0.0-DEV
+**FW Version:** 1.0.0
 
 [README](README.md) | [CHANGELOG](CHANGELOG.md) | [TODOs](TODOs.md) | [LICENCE](LICENCE.md)
 
