@@ -7,11 +7,11 @@ from datetime import datetime, timedelta
 import time
 import signal
 
-from fw_upspack_v3.ups.device import Device
-from fw_upspack_v3.ups.simulator import DeviceSimulator
-from fw_upspack_v3.dbus.obj import DBusObject
-from fw_upspack_v3.dbus.daemon import *
-from fw_upspack_v3.ups.mappings import PROPS_CODES, CALC_PROPS_CODES
+from fw_sensehat.sense.device import Device
+from fw_sensehat.sense.simulator import DeviceSimulator
+from fw_sensehat.dbus.obj import DBusObject
+from fw_sensehat.dbus.daemon import *
+from fw_sensehat.sense.mappings import PROPS_CODES, CALC_PROPS_CODES
 
 """ Name of the current script """
 FW_NAME = "FW UPS Pack v3"
