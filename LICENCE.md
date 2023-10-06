@@ -1,4 +1,4 @@
-# FW UPS Pack V3 - LICENCE
+# FW Sense Hat - LICENCE
 
 [README](README.md) | [CHANGELOG](CHANGELOG.md) | [TODOs](TODOs.md) | [LICENCE](LICENCE.md)
 
