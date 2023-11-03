@@ -444,7 +444,10 @@ class TCS34087:
             ir = 0
         r_comp = self.R - ir
         b_comp = self.B - ir
-        cct=TCS34087_CT_Coef * (float)(b_comp) / (float)(r_comp) + TCS34087_CT_Offset
+        try:
+            cct=TCS34087_CT_Coef * (float)(b_comp) / (float)(r_comp) + TCS34087_CT_Offset
+        except ZeroDivisionError:
+            return 0.0
         return cct
 
 

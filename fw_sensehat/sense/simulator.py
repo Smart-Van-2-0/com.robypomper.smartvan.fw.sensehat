@@ -41,6 +41,9 @@ class DeviceSimulator(Device):
             'tcs34087_color_temp': '3083.0112429731416'
         }
 
+    def init_chips(self):
+        self._is_connected = True
+
     def refresh(self, reset_data=False) -> bool:
         self._data = {
             'hardcoded_model': 'SenseHat(c)',

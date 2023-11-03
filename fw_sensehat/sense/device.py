@@ -69,7 +69,8 @@ class Device(DeviceAbs):
             logger.warning("Error on Chips initialization '{}'. Print stacktrace:".format(err))
             import traceback
             traceback.print_exc()
-            GPIO.cleanup()
+            if _gpio_loaded:
+                GPIO.cleanup()
 
     def refresh(self, reset_data=False):
         """
@@ -154,11 +155,14 @@ class Device(DeviceAbs):
         """ Read the latest values from sensor's chips. """
 
         self._data['hardcoded_model'] = "SenseHat(c)"
-        self._read_data_imu()
-        self._read_data_lphb()
-        self._read_data_ads1015()
-        self._read_data_shtc3()
-        self._read_data_tcs34087()
+        try:
+            self._read_data_imu()
+            self._read_data_lphb()
+            self._read_data_ads1015()
+            self._read_data_shtc3()
+            self._read_data_tcs34087()
+        except Exception as err:
+            logger.warning("Error during device fetching: [{}] {}".format(type(err), str(err)))
 
     def _read_data_imu(self):
         if self._imu is None:
