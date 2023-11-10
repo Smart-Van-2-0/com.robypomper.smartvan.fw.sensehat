@@ -4,6 +4,7 @@ import logging
 
 try:
     import RPi.GPIO as GPIO
+
     _gpio_loaded = True
 except:
     print("WARN: RPi.GPIO module disabled.")
@@ -17,8 +18,14 @@ from fw_sensehat.sense.chip.ADS1015 import ADS1015
 # from fw_sensehat.sense.chip.SHTC3 import SHTC3
 from fw_sensehat.sense.chip.TCS34087 import TCS34087
 
-
 logger = logging.getLogger()
+
+from fw_sensehat.sense.chip.IMU import I2C_ADD_IMU_QMI8658
+from fw_sensehat.sense.chip.IMU import I2C_ADD_IMU_AK09918
+from fw_sensehat.sense.chip.LPS22HB import I2C_ADD_LPS22HB
+from fw_sensehat.sense.chip.ADS1015 import I2C_ADD_ADS1015
+from fw_sensehat.sense.chip.TCS34087 import I2C_ADD_TCS34087
+
 
 class Device(DeviceAbs):
     """
@@ -32,17 +39,17 @@ class Device(DeviceAbs):
         self._is_reading = False
         self._must_terminate = False
 
-        self.cached_version = None  # version can be anything else
+        self.cached_pid = None  # version can be anything else
         self.cached_type = None
         self.cached_type_code = None
 
-        self._imu : Optional[IMU] = None
+        self._imu: Optional[IMU] = None
         self._imu_motion_val = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        self._lps22hb : Optional[LPS22HB] = None
-        self._ads1015 : Optional[ADS1015] = None
+        self._lps22hb: Optional[LPS22HB] = None
+        self._ads1015: Optional[ADS1015] = None
         self._shtc3 = None
         # self._shtc3 : Optional[SHTC3] = None
-        self._tcs34087 : Optional[TCS34087] = None
+        self._tcs34087: Optional[TCS34087] = None
         self.init_chips()
 
         if auto_refresh:
@@ -54,11 +61,11 @@ class Device(DeviceAbs):
 
     def init_chips(self):
         try:
-            self._imu = IMU()
-            self._lps22hb = LPS22HB()
-            self._ads1015 = ADS1015()
+            self._imu = IMU(I2C_ADD_IMU_QMI8658, I2C_ADD_IMU_AK09918)
+            self._lps22hb = LPS22HB(I2C_ADD_LPS22HB)
+            self._ads1015 = ADS1015(I2C_ADD_ADS1015)
             # self._shtc3 = SHTC3()
-            self._tcs34087 = TCS34087(0X29, debug=False)
+            self._tcs34087 = TCS34087(I2C_ADD_TCS34087, debug=False)
             if self._tcs34087.TCS34087_init() == 1:
                 logger.warning("TCS34087 initialization error!!")
                 self._tcs34087 = None
@@ -66,7 +73,9 @@ class Device(DeviceAbs):
 
         except Exception as err:
             self._is_connected = False
-            logger.warning("Error on Chips initialization '{}'. Print stacktrace:".format(err))
+            logger.warning(
+                "Error on Chips initialization '{}'. Print stacktrace:".format(
+                    err))
             import traceback
             traceback.print_exc()
             if _gpio_loaded:
@@ -95,7 +104,7 @@ class Device(DeviceAbs):
             self._data = {}
         self._read_data()
 
-        #for k in self._data.keys():
+        # for k in self._data.keys():
         #    print("'{}': '{}'".format(k, self._data[k]))
 
         self._is_reading = False
@@ -124,10 +133,10 @@ class Device(DeviceAbs):
         In the Sense Hat case is the hardcoded device's model.
         """
 
-        if self.cached_version is None:
-            self.cached_version = self._data['hardcoded_model']
+        if self.cached_pid is None:
+            self.cached_pid = self._data['hardcoded_model']
 
-        return self.cached_version
+        return self.cached_pid
 
     @property
     def device_type(self) -> str:
@@ -136,7 +145,8 @@ class Device(DeviceAbs):
             if self.device_pid is not None:
                 self.cached_type = PID[self.device_pid]['type']
 
-        return self.cached_type if self.cached_type is not None else DEV_TYPE_UNKNOWN
+        return self.cached_type \
+            if self.cached_type is not None else DEV_TYPE_UNKNOWN
 
     @property
     def device_type_code(self) -> str:
@@ -162,7 +172,9 @@ class Device(DeviceAbs):
             self._read_data_shtc3()
             self._read_data_tcs34087()
         except Exception as err:
-            logger.warning("Error during device fetching: [{}] {}".format(type(err), str(err)))
+            logger.warning(
+                "Error during device fetching: [{}] {}".format(type(err),
+                                                               str(err)))
 
     def _read_data_imu(self):
         if self._imu is None:
@@ -174,22 +186,25 @@ class Device(DeviceAbs):
         # MotionVal = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         MotionVal = self._imu_motion_val
         from fw_sensehat.sense.chip.IMU import Gyro, Accel, Mag
-        #Gyro = [0, 0, 0]
-        #Accel = [0, 0, 0]
-        #Mag = [0, 0, 0]
+        # Gyro = [0, 0, 0]
+        # Accel = [0, 0, 0]
+        # Mag = [0, 0, 0]
         from fw_sensehat.sense.chip.IMU import q0, q1, q2, q3
-        #q0 = 1.0
-        #q1=q2=q3=0.0
+        # q0 = 1.0
+        # q1=q2=q3=0.0
 
         self._imu.QMI8658_Gyro_Accel_Read()
         self._imu.AK09918_MagRead()
         self._imu.icm20948CalAvgValue(MotionVal)
-        self._imu.imuAHRSupdate(MotionVal[0] * 0.0175, MotionVal[1] * 0.0175,MotionVal[2] * 0.0175,
-                    MotionVal[3],MotionVal[4],MotionVal[5],
-                    MotionVal[6], MotionVal[7], MotionVal[8])
-        pitch = math.asin(-2 * q1 * q3 + 2 * q0* q2)* 57.3
-        roll = math.atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2* q2 + 1)* 57.3
-        yaw = math.atan2(-2 * q1 * q2 - 2 * q0 * q3, 2 * q2 * q2 + 2 * q3 * q3 - 1) * 57.3
+        self._imu.imu_ahrs_update(MotionVal[0] * 0.0175, MotionVal[1] * 0.0175,
+                                  MotionVal[2] * 0.0175,
+                                  MotionVal[3], MotionVal[4], MotionVal[5],
+                                  MotionVal[6], MotionVal[7], MotionVal[8])
+        pitch = math.asin(-2 * q1 * q3 + 2 * q0 * q2) * 57.3
+        roll = math.atan2(2 * q2 * q3 + 2 * q0 * q1,
+                          -2 * q1 * q1 - 2 * q2 * q2 + 1) * 57.3
+        yaw = math.atan2(-2 * q1 * q2 - 2 * q0 * q3,
+                         2 * q2 * q2 + 2 * q3 * q3 - 1) * 57.3
 
         self._data['imu_roll'] = roll
         self._data['imu_pitch'] = pitch
@@ -211,20 +226,26 @@ class Device(DeviceAbs):
             return
 
         from fw_sensehat.sense.chip.LPS22HB import LPS_STATUS
-        from fw_sensehat.sense.chip.LPS22HB import LPS_PRESS_OUT_XL, LPS_PRESS_OUT_L, LPS_PRESS_OUT_H
-        from fw_sensehat.sense.chip.LPS22HB import LPS_TEMP_OUT_L, LPS_TEMP_OUT_H
+        from fw_sensehat.sense.chip.LPS22HB import LPS_PRESS_OUT_XL, \
+            LPS_PRESS_OUT_L, LPS_PRESS_OUT_H
+        from fw_sensehat.sense.chip.LPS22HB import LPS_TEMP_OUT_L, \
+            LPS_TEMP_OUT_H
         u8buf = [0, 0, 0]
 
         self._lps22hb.LPS22HB_START_ONESHOT()
-        if (self._lps22hb._read_byte(LPS_STATUS) & 0x01) == 0x01:  # a new pressure data is generated
+        if (self._lps22hb._read_byte(
+                LPS_STATUS) & 0x01) == 0x01:  # a new pressure data is generated
             u8buf[0] = self._lps22hb._read_byte(LPS_PRESS_OUT_XL)
             u8buf[1] = self._lps22hb._read_byte(LPS_PRESS_OUT_L)
             u8buf[2] = self._lps22hb._read_byte(LPS_PRESS_OUT_H)
-            self._data['lps22hb_pressure'] = ((u8buf[2] << 16) + (u8buf[1] << 8) + u8buf[0]) / 4096.0
-        if (self._lps22hb._read_byte(LPS_STATUS) & 0x02) == 0x02:  # a new temperature data is generated
+            self._data['lps22hb_pressure'] = ((u8buf[2] << 16) + (
+                    u8buf[1] << 8) + u8buf[0]) / 4096.0
+        if (self._lps22hb._read_byte(
+                LPS_STATUS) & 0x02) == 0x02:  # a new temperature data is generated
             u8buf[0] = self._lps22hb._read_byte(LPS_TEMP_OUT_L)
             u8buf[1] = self._lps22hb._read_byte(LPS_TEMP_OUT_H)
-            self._data['lps22hb_temperature'] = ((u8buf[1] << 8) + u8buf[0]) / 100.0
+            self._data['lps22hb_temperature'] = ((u8buf[1] << 8) + u8buf[
+                0]) / 100.0
 
     def _read_data_ads1015(self):
         if self._ads1015 is None:
