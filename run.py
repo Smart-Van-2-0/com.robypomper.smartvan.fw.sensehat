@@ -22,7 +22,7 @@ FW_GROUP = "com.robypomper.smartvan.fw.sensehat"
 """ Version of the current script """
 FW_VERSION = "1.0.0-DEV"
 """ Value to use as default DBus name """
-DEF_DBUS_NAME = "com.sensehat"
+DEF_DBUS_NAME = "com.waveshare.sensehat"
 """ Value to use as default DBus object path, if none  """
 DEF_DBUS_OBJ_PATH = None
 """ Value to use as default DBus object interface """
