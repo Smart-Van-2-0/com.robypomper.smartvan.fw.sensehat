@@ -7,8 +7,8 @@ from ._parsers import *
 
 # Given an PID, this object returns all his info and meta-data
 PID = {
-    "SenseHat(c)": {"model": "Sense Hat (c)", "type": DEV_Type_SenseHat_c,
-                    "dbus_iface": DEV_IFACE_SenseHat, "dbus_desc": DEV_DBUS_DESC_SenseHat},
+    "SenseHat(c)": {"model": "Sense Hat (c)", "type": DEV_TYPE_SenseHat_c,
+                    "dbus_iface": DEV_IFACE_SenseHat_c, "dbus_desc": DEV_DBUS_DESC_SenseHat},
 }
 
 PROPS_CODES = {
