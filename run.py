@@ -70,16 +70,21 @@ def _cli_args():
 
     parser = argparse.ArgumentParser(description=FW_DESC)
     group01 = parser.add_argument_group()
-    group01.add_argument('--simulate', default=False, action="store_true", required=False,
-                         help='Simulate a Device with id \'0xA060\'')
+    group01.add_argument("--simulate", default=False,
+                         action="store_true", required=False,
+                         help="Simulate a UPS Pack V3 Device "
+                              "(default: False)")
 
     group02 = parser.add_argument_group()
-    group02.add_argument('--dbus-name', default=DEF_DBUS_NAME,
-                         help='DBus name')
-    group02.add_argument('--dbus-obj-path', default=DEF_DBUS_OBJ_PATH,
-                         help='DBus object path (if None, the device type will be used, if empty nothing will be used)')
-    group02.add_argument('--dbus-iface', default=DEF_DBUS_IFACE,
-                         help='DBus object\'s interface')
+    group02.add_argument("--dbus-name", default=DEF_DBUS_NAME,
+                         help="DBus name to connect to "
+                              "(default: {})".format(DEF_DBUS_NAME))
+    group02.add_argument("--dbus-obj-path", default=DEF_DBUS_OBJ_PATH,
+                         help="DBus object path to use for object publication "
+                              "(Default: current device's `device_type_code`)")
+    group02.add_argument("--dbus-iface", default=DEF_DBUS_IFACE,
+                         help="DBus object\'s interface "
+                              "(Default: current device's `dbus_iface`)")
 
     group03 = parser.add_argument_group()
     group03.add_argument("-v", "--version", action="store_true", required=False,
@@ -87,7 +92,7 @@ def _cli_args():
 
     group04 = parser.add_argument_group()
     group04.add_argument("--dev", action="store_true",
-                         help="Enable development mode, increase logged messages info")
+                         help="Enable development mode, increase log messages")
     group04.add_argument("--debug", action="store_true",
                          help="Set log level to debug")
     group04.add_argument("--quiet", action="store_true",
