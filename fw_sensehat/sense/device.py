@@ -285,7 +285,7 @@ class Device(DeviceAbs):
         self._data['tcs34087_rgb_g'] = self._tcs34087.RGB888_G
         self._data['tcs34087_rgb_b'] = self._tcs34087.RGB888_B
         self._data['tcs34087_c'] = self._tcs34087.C
-        self._data['tcs34087_rgb565'] = self._tcs34087.RG565
+        self._data['tcs34087_rgb565'] = self._tcs34087.RGB565
         self._data['tcs34087_rgb888'] = self._tcs34087.RGB888
         self._data['tcs34087_lux'] = self._tcs34087.Get_Lux()
         self._data['tcs34087_lux_interrupt'] = self._tcs34087.GetLux_Interrupt()

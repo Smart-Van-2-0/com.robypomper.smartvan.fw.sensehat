@@ -25,7 +25,7 @@ try:
         print("G: %d "%Light.RGB888_G, end = "")
         print("B: %d "%Light.RGB888_B, end = "") 
         print("C: %#x "%Light.C, end = "")
-        print("RGB565: %#x "%Light.RG565, end ="")
+        print("RGB565: %#x "%Light.RGB565, end ="")
         print("RGB888: %#x "%Light.RGB888, end = "")   
         print("LUX: %d "%Light.Get_Lux(), end = "") 
         print("CT: %dK "%Light.Get_ColorTemp(), end ="")
