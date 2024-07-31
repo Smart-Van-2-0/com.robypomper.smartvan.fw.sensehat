@@ -100,34 +100,34 @@ Module's files can be grouped in 2 categories:
 
 **Definitions:**
 
-* [ups/mappings.py](/fw_upspack_v3/ups/mappings.py):
+* [sense/mappings.py](/fw_sensehat/sense/mappings.py):
   definition of `PID`, `PROPS_CODES` and `CALC_PROPS_CODES` tables
-* [ups/_definitions.py](/fw_upspack_v3/ups/_definitions.py):
+* [sense/_definitions.py](/fw_sensehat/sense/_definitions.py):
   definitions of supported devices, DUbus ifaces and custom properties types
-* [ups/_parsers.py](/fw_upspack_v3/ups/_parsers.py):
+* [sense/_parsers.py](/fw_sensehat/sense/_parsers.py):
   custom properties parsers
-* [ups/_calculated.py](/fw_upspack_v3/ups/_calculated.py):
+* [sense/_calculated.py](/fw_sensehat/sense/_calculated.py):
   custom properties calculators and data generator methods for simulator
-* [ups/_dbus_descs.py](/fw_upspack_v3/ups/_dbus_descs.py):
+* [sense/_dbus_descs.py](/fw_sensehat/sense/_dbus_descs.py):
   definition of DBus iface's descriptors
 
 **Operations:**
 
 * [run.py](run.py):
   main firmware script
-* [ups/device.py](/fw_upspack_v3/ups/device.py):
+* [sense/device.py](/fw_sensehat/sense/device.py):
   class that represent the device
-* [ups/simulator.py](/fw_upspack_v3/ups/simulator.py):
+* [sense/simulator.py](/fw_sensehat/sense/simulator.py):
   class that represent the simulated device
-* [dbus/obj.py](/fw_upspack_v3/dbus/obj.py):
+* [dbus/obj.py](/fw_sensehat/dbus/obj.py):
   class that represent aDBus object to publish
-* [dbus/daemon.py](/fw_upspack_v3/dbus/daemon.py):
+* [dbus/daemon.py](/fw_sensehat/dbus/daemon.py):
   methods to handle the DBus daemon
-* [commons.py](/fw_upspack_v3/commons.py):
+* [commons.py](/fw_sensehat/commons.py):
   commons properties parsers and simulator methods
-* [device.py](/fw_upspack_v3/device.py):
+* [device.py](/fw_sensehat/device.py):
   base class for devices
-* [device_serial.py](/fw_upspack_v3/device_serial.py):
+* [device_serial.py](/fw_sensehat/device_serial.py):
   base implementation for serial devices
 
 ## References
