@@ -53,8 +53,14 @@ PROPS_CODES = {
                    "parser": props_parser_int},
     "ads1015_a2": {"name": "analog_2", "desc": "ADS1015 Analog input 2",
                    "parser": props_parser_int},
+
     "ads1015_a3": {"name": "analog_3", "desc": "ADS1015 Analog input 3",
                    "parser": props_parser_int},
+
+    "shtc3_temperature": {"name": "temperature", "desc": "SHTC3 Temperature",
+                   "parser": props_parser_float},
+    "shtc3_humidity": {"name": "humidity", "desc": "SHTC3 Humidity",
+                   "parser": props_parser_float},
 
     "tcs34087_rgb_r": {"name": "lux_rgb_r", "desc": "TCS34087 RGB r",
                        "parser": props_parser_int},
