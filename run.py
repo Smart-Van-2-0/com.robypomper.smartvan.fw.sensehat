@@ -215,7 +215,8 @@ def _main_loop(dev, dbus_obj, development=False):
     logger.info("Start {} Main Loop. Press (Ctrl+C) to quit.".format(FW_NAME))
     must_shutdown = False
     while not must_shutdown:
-        logger.info("  ==== ==== ==== ====")
+        if LOOP_SLEEP > 0:
+            logger.info("  ==== ==== ==== ====")
         logger.debug("Start fetch/pull device")
 
         try:
