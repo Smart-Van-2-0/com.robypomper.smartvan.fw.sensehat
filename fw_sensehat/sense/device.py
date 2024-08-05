@@ -15,7 +15,7 @@ from fw_sensehat.device import DeviceAbs
 from fw_sensehat.sense.chip.IMU import IMU
 from fw_sensehat.sense.chip.LPS22HB import LPS22HB
 from fw_sensehat.sense.chip.ADS1015 import ADS1015
-# from fw_sensehat.sense.chip.SHTC3 import SHTC3
+from fw_sensehat.sense.chip.SHTC3 import SHTC3
 from fw_sensehat.sense.chip.TCS34087 import TCS34087
 
 logger = logging.getLogger()
@@ -48,7 +48,7 @@ class Device(DeviceAbs):
         self._lps22hb: Optional[LPS22HB] = None
         self._ads1015: Optional[ADS1015] = None
         self._shtc3 = None
-        # self._shtc3 : Optional[SHTC3] = None
+        self._shtc3 : Optional[SHTC3] = None
         self._tcs34087: Optional[TCS34087] = None
         self.init_chips()
 
@@ -64,7 +64,7 @@ class Device(DeviceAbs):
             self._imu = IMU(I2C_ADD_IMU_QMI8658, I2C_ADD_IMU_AK09918)
             self._lps22hb = LPS22HB(I2C_ADD_LPS22HB)
             self._ads1015 = ADS1015(I2C_ADD_ADS1015)
-            # self._shtc3 = SHTC3()
+            self._shtc3 = SHTC3()
             self._tcs34087 = TCS34087(I2C_ADD_TCS34087, debug=False)
             if self._tcs34087.TCS34087_init() == 1:
                 logger.warning("TCS34087 initialization error!!")
@@ -228,8 +228,9 @@ class Device(DeviceAbs):
             logger.debug("SHTC3 not available (Temp. & Hum.)")
             return
 
-        self._data['shtc3_temperature'] = self._shtc3.SHTC3_Read_Temperature()
-        self._data['shtc3_humidity'] = self._shtc3.SHTC3_Read_Humidity()
+        temp, hum = self._shtc3.readAll()
+        self._data['shtc3_temperature'] = temp
+        self._data['shtc3_humidity'] = hum
 
     def _read_data_tcs34087(self):
         if self._tcs34087 is None:

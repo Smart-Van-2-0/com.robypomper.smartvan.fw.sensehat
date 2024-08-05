@@ -1,33 +1,14 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-import ctypes
+import board
+import adafruit_shtc3
 
-class SHTC3:
+
+class SHTC3(object):
+
     def __init__(self):
-        self.dll = ctypes.CDLL("./SHTC3.so")
-        init = self.dll.SHTC3_init
-        init.restype = ctypes.c_int
-        init.argtypes = [ctypes.c_void_p]
-        init(None)
+        i2c = board.I2C()  # uses board.SCL and board.SDA
+        self._sht = adafruit_shtc3.SHTC3(i2c)
 
-    def SHTC3_Read_Temperature(self):
-        temperature = self.dll.SHTC3_Read_TH
-        temperature.restype = ctypes.c_float
-        temperature.argtypes = [ctypes.c_void_p]
-        return temperature(None)
-
-    def SHTC3_Read_Humidity(self):
-        humidity = self.dll.SHTC3_Read_RH
-        humidity.restype = ctypes.c_float
-        humidity.argtypes = [ctypes.c_void_p]
-        return humidity(None)
-
-
-if __name__ == "__main__":
-    shtc3 = SHTC3()
-    while True:
-        try:
-            print('Temperature = %6.2f°C , Humidity = %6.2f%%' % (shtc3.SHTC3_Read_Temperature(), shtc3.SHTC3_Read_Humidity()))
-        except(KeyboardInterrupt):
-            print("\n") 
-            break
+    def readAll(self):
+        return self._sht.temperature, self._sht.relative_humidity
