@@ -42,6 +42,7 @@ class DeviceSimulator(Device):
             'tcs34087_lux_interrupt': '0',
             'tcs34087_color_temp': '1507.0112429731416'
         }
+        self._is_connected = True
 
     def init_chips(self):
         self._is_connected = True
