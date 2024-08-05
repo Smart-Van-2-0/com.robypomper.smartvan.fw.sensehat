@@ -143,7 +143,10 @@ class Device(DeviceAbs):
         """ Returns the device type """
         if self.cached_type is None:
             if self.device_pid is not None:
-                self.cached_type = PID[self.device_pid]['type']
+                try:
+                    self.cached_type = PID[self.device_pid]['type']
+                except KeyError as err:
+                    raise SystemError("Unknown PID '{}' read from device".format(self.device_pid)) from err
 
         return self.cached_type \
             if self.cached_type is not None else DEV_TYPE_UNKNOWN
