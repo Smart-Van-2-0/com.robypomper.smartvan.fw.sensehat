@@ -237,19 +237,24 @@ class Device(DeviceAbs):
             logger.debug("TCS34087 (Light sensor)) not available")
             return
 
-        self._tcs34087.Get_RGBData()
-        self._tcs34087.GetRGB888()
-        self._tcs34087.GetRGB565()
+        self._tcs34087.readAll()
+        r, g, b = self._tcs34087.get_last_rgb()
+        c = self._tcs34087.get_last_clear()
+        rgb565 = self._tcs34087.get_last_rgb565()
+        rgb888 = self._tcs34087.get_last_rgb888()
+        lux = self._tcs34087.get_last_lux()
+        lux_interrupt = self._tcs34087.get_last_lux_interrupt()
+        color_temp = self._tcs34087.get_last_color_temp()
 
-        self._data['tcs34087_rgb_r'] = self._tcs34087.RGB888_R
-        self._data['tcs34087_rgb_g'] = self._tcs34087.RGB888_G
-        self._data['tcs34087_rgb_b'] = self._tcs34087.RGB888_B
-        self._data['tcs34087_c'] = self._tcs34087.C
-        self._data['tcs34087_rgb565'] = self._tcs34087.RGB565
-        self._data['tcs34087_rgb888'] = self._tcs34087.RGB888
-        self._data['tcs34087_lux'] = self._tcs34087.Get_Lux()
-        self._data['tcs34087_lux_interrupt'] = self._tcs34087.GetLux_Interrupt()
-        self._data['tcs34087_color_temp'] = self._tcs34087.Get_ColorTemp()
+        self._data['tcs34087_rgb_r'] = r
+        self._data['tcs34087_rgb_g'] = g
+        self._data['tcs34087_rgb_b'] = b
+        self._data['tcs34087_c'] = c
+        self._data['tcs34087_rgb565'] = rgb565
+        self._data['tcs34087_rgb888'] = rgb888
+        self._data['tcs34087_lux'] = lux
+        self._data['tcs34087_lux_interrupt'] = lux_interrupt
+        self._data['tcs34087_color_temp'] = color_temp
 
 
 if __name__ == '__main__':
