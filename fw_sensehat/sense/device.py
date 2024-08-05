@@ -208,27 +208,9 @@ class Device(DeviceAbs):
             logger.debug("LPS22HB not available (Press. & Temp.)")
             return
 
-        from fw_sensehat.sense.chip.LPS22HB import LPS_STATUS
-        from fw_sensehat.sense.chip.LPS22HB import LPS_PRESS_OUT_XL, \
-            LPS_PRESS_OUT_L, LPS_PRESS_OUT_H
-        from fw_sensehat.sense.chip.LPS22HB import LPS_TEMP_OUT_L, \
-            LPS_TEMP_OUT_H
-        u8buf = [0, 0, 0]
-
-        self._lps22hb.LPS22HB_START_ONESHOT()
-        if (self._lps22hb._read_byte(
-                LPS_STATUS) & 0x01) == 0x01:  # a new pressure data is generated
-            u8buf[0] = self._lps22hb._read_byte(LPS_PRESS_OUT_XL)
-            u8buf[1] = self._lps22hb._read_byte(LPS_PRESS_OUT_L)
-            u8buf[2] = self._lps22hb._read_byte(LPS_PRESS_OUT_H)
-            self._data['lps22hb_pressure'] = ((u8buf[2] << 16) + (
-                    u8buf[1] << 8) + u8buf[0]) / 4096.0
-        if (self._lps22hb._read_byte(
-                LPS_STATUS) & 0x02) == 0x02:  # a new temperature data is generated
-            u8buf[0] = self._lps22hb._read_byte(LPS_TEMP_OUT_L)
-            u8buf[1] = self._lps22hb._read_byte(LPS_TEMP_OUT_H)
-            self._data['lps22hb_temperature'] = ((u8buf[1] << 8) + u8buf[
-                0]) / 100.0
+        self._lps22hb.refreshAll()
+        self._data['lps22hb_pressure'] = self._lps22hb.getPressure()
+        self._data['lps22hb_temperature'] = self._lps22hb.getTemperature()
 
     def _read_data_ads1015(self):
         if self._ads1015 is None:
