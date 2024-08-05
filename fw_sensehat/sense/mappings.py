@@ -45,7 +45,7 @@ PROPS_CODES = {
 
     "lps22hb_pressure": {"name": "pressure", "desc": "LPS22HB Pressure",
                          "parser": props_parser_float},
-    "lps22hb_temperature": {"name": "temperature", "desc": "LPS22HB Temperature",
+    "lps22hb_temperature": {"name": "temperature_1", "desc": "LPS22HB Temperature",
                             "parser": props_parser_float},
 
     "ads1015_a0": {"name": "analog_0", "desc": "ADS1015 Analog input 0",
@@ -57,7 +57,7 @@ PROPS_CODES = {
     "ads1015_a3": {"name": "analog_3", "desc": "ADS1015 Analog input 3",
                    "parser": props_parser_int},
 
-    "shtc3_temperature": {"name": "temperature", "desc": "SHTC3 Temperature",
+    "shtc3_temperature": {"name": "temperature_2", "desc": "SHTC3 Temperature",
                    "parser": props_parser_float},
     "shtc3_humidity": {"name": "humidity", "desc": "SHTC3 Humidity",
                    "parser": props_parser_float},
@@ -77,13 +77,15 @@ PROPS_CODES = {
     "tcs34087_lux": {"name": "lux", "desc": "TCS34087 Lux",
                      "parser": props_parser_int},
     "tcs34087_lux_interrupt": {"name": "lux_interrupt", "desc": "TCS34087 Lux interrupt",
-                               "parser": props_parser_float},
+                               "parser": props_parser_int},
     "tcs34087_color_temp": {"name": "lux_color_temp", "desc": "TCS34087 color temperature",
                             "parser": props_parser_float},
 
 }
 
 CALC_PROPS_CODES = {
+    "temperature": {"depends_on": ["temperature_1", "temperature_2"],
+                           "calculator": calc_temperature},
     "analog_0_perc": {"depends_on": "analog_0",
                            "calculator": calc_analog_0_perc},
     "analog_1_perc": {"depends_on": "analog_1",

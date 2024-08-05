@@ -53,7 +53,7 @@ DEV_DBUS_DESC_SenseHat = '''<node>
     <property name="pressure" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="temperature" type="d" access="read">
+    <property name="temperature_1" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
     
@@ -82,7 +82,7 @@ DEV_DBUS_DESC_SenseHat = '''<node>
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
     
-    <property name="temperature" type="d" access="read">
+    <property name="temperature_2" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
     <property name="humidity" type="d" access="read">
@@ -117,6 +117,9 @@ DEV_DBUS_DESC_SenseHat = '''<node>
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
     
+    <property name="temperature" type="d" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
+    </property>
   </interface>
 </node>
 '''
