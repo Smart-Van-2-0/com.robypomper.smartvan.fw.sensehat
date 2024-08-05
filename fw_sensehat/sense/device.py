@@ -181,44 +181,27 @@ class Device(DeviceAbs):
             logger.debug("IMU not available (Acc, Gyro, Mag...)")
             return
 
-        import math
-        # from fw_sensehat.sense.chip.IMU import MotionVal
-        # MotionVal = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        MotionVal = self._imu_motion_val
-        from fw_sensehat.sense.chip.IMU import Gyro, Accel, Mag
-        # Gyro = [0, 0, 0]
-        # Accel = [0, 0, 0]
-        # Mag = [0, 0, 0]
-        from fw_sensehat.sense.chip.IMU import q0, q1, q2, q3
-        # q0 = 1.0
-        # q1=q2=q3=0.0
+        imu = self._imu
+        imu.refreshAll()
 
-        self._imu.QMI8658_Gyro_Accel_Read()
-        self._imu.AK09918_MagRead()
-        self._imu.icm20948CalAvgValue(MotionVal)
-        self._imu.imu_ahrs_update(MotionVal[0] * 0.0175, MotionVal[1] * 0.0175,
-                                  MotionVal[2] * 0.0175,
-                                  MotionVal[3], MotionVal[4], MotionVal[5],
-                                  MotionVal[6], MotionVal[7], MotionVal[8])
-        pitch = math.asin(-2 * q1 * q3 + 2 * q0 * q2) * 57.3
-        roll = math.atan2(2 * q2 * q3 + 2 * q0 * q1,
-                          -2 * q1 * q1 - 2 * q2 * q2 + 1) * 57.3
-        yaw = math.atan2(-2 * q1 * q2 - 2 * q0 * q3,
-                         2 * q2 * q2 + 2 * q3 * q3 - 1) * 57.3
+        pitch, roll, yaw = imu.getPitchRollYaw()
+        ax, ay, az = imu.getAccel()
+        gx, gy, gz = imu.getGyro()
+        mx, my, mz = imu.getMag()
 
         self._data['imu_roll'] = roll
         self._data['imu_pitch'] = pitch
         self._data['imu_yaw'] = yaw
-        self._data['imu_acceleration_x'] = Accel[0]
-        self._data['imu_acceleration_y'] = Accel[1]
-        self._data['imu_acceleration_z'] = Accel[2]
-        self._data['imu_gyroscope_x'] = Gyro[0]
-        self._data['imu_gyroscope_y'] = Gyro[1]
-        self._data['imu_gyroscope_z'] = Gyro[2]
-        self._data['imu_magnetic_x'] = Mag[0]
-        self._data['imu_magnetic_y'] = Mag[1]
-        self._data['imu_magnetic_z'] = Mag[2]
-        self._data['imu_qmi_temperature'] = self._imu.QMI8658_readTemp()
+        self._data['imu_acceleration_x'] = ax
+        self._data['imu_acceleration_y'] = ay
+        self._data['imu_acceleration_z'] = az
+        self._data['imu_gyroscope_x'] = gx
+        self._data['imu_gyroscope_y'] = gy
+        self._data['imu_gyroscope_z'] = gz
+        self._data['imu_magnetic_x'] = mx
+        self._data['imu_magnetic_y'] = my
+        self._data['imu_magnetic_z'] = mz
+        self._data['imu_qmi_temperature'] = self._imu.getTemp()
 
     def _read_data_lphb(self):
         if self._lps22hb is None:
