@@ -217,17 +217,11 @@ class Device(DeviceAbs):
             logger.debug("ADS1015 not available (AnalogIn)")
             return
 
-        from fw_sensehat.sense.chip.ADS1015 import ADS_POINTER_CONFIG
-
-        state = self._ads1015._read_u16(ADS_POINTER_CONFIG) & 0x8000
-        if state != 0x8000:
-            logger.debug("ADS1015 (AnalogIn) Error, state: {}".format(state))
-            return
-
-        self._data['ads1015_a0'] = self._ads1015.ADS1015_SINGLE_READ(0)
-        self._data['ads1015_a1'] = self._ads1015.ADS1015_SINGLE_READ(1)
-        self._data['ads1015_a2'] = self._ads1015.ADS1015_SINGLE_READ(2)
-        self._data['ads1015_a3'] = self._ads1015.ADS1015_SINGLE_READ(3)
+        a0, a1, a2, a3 = self._ads1015.readAll()
+        self._data['ads1015_a0'] = a0
+        self._data['ads1015_a1'] = a1
+        self._data['ads1015_a2'] = a2
+        self._data['ads1015_a3'] = a3
 
     def _read_data_shtc3(self):
         if self._shtc3 is None:

@@ -98,6 +98,11 @@ class ADS1015(object):
         self._address = address
         self._bus = smbus.SMBus(1)
 
+        state = self._read_u16(ADS_POINTER_CONFIG) & 0x8000
+        if state != 0x8000:
+            raise IOError("Can't init ADS1015 via I2C on address '{}'".format(
+                self._address))
+
     def ADS1015_SINGLE_READ(self, channel):
         """ Read single channel data. """
         config_set = (
@@ -141,21 +146,24 @@ class ADS1015(object):
         val = (val_h << 8) | val_l
         self._bus.write_word_data(self._address, cmd, val)
 
+    def readAll(self) -> (int, int, int, int):
+        a0 = self.ADS1015_SINGLE_READ(0)
+        a1 = self.ADS1015_SINGLE_READ(1)
+        a2 = self.ADS1015_SINGLE_READ(2)
+        a3 = self.ADS1015_SINGLE_READ(3)
+
+        return a0, a1, a2, a3
+
 
 if __name__ == '__main__':
 
     print("\nADS1015 Test Program ...\r\n")
     ads1015 = ADS1015()
-    state = ads1015._read_u16(ADS_POINTER_CONFIG) & 0x8000
-    if state != 0x8000:
-        print("\nADS1015 Error\n")
+
     while True:
         try:
             time.sleep(0.5)
-            AIN0_DATA = ads1015.ADS1015_SINGLE_READ(0)
-            AIN1_DATA = ads1015.ADS1015_SINGLE_READ(1)
-            AIN2_DATA = ads1015.ADS1015_SINGLE_READ(2)
-            AIN3_DATA = ads1015.ADS1015_SINGLE_READ(3)
+            AIN0_DATA, AIN1_DATA, AIN2_DATA, AIN3_DATA = ads1015.readAll()
             print('\nAIN0 = %d(%.2fmv), AIN1 = %d(%.2fmv), '
                   'AIN2 = %d(%.2fmv), AIN3 = %d(%.2fmv)\n\r' % (
                     AIN0_DATA, AIN0_DATA * 0.125, AIN1_DATA, AIN1_DATA * 0.125,
