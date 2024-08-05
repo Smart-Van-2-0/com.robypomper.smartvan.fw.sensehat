@@ -62,7 +62,7 @@ properties_cache = {}
 def _full_version():
     """ Return a string containing the version, name and group from current script. """
 
-    return "{} (Version: {})\n{}".format(FW_NAME, FW_VERSION, FW_GROUP)
+    return "{}:{} (Version: {})".format(FW_GROUP, FW_NAME, FW_VERSION)
 
 
 def _cli_args():
@@ -127,14 +127,15 @@ def _init_logging(dev, debug, quiet):
         logging.getLogger().setLevel(logging.ERROR)
         handler.setLevel(logging.ERROR)
 
-    logger.info(_full_version())
-    logger.info("Execution mode: " + ("QUIET" if quiet else
-                                      "DEV" if dev else
-                                      "DEBUG" if debug else "NORMAL"))
-    logger.info("Execution args: " + str(sys.argv[1:]))
-
     root_logger = logging.getLogger()
     root_logger.addHandler(handler)
+
+    logger.info(_full_version())
+    logger.debug("Execution mode: " + ("QUIET" if quiet else
+                                      "DEV" if dev else
+                                      "DEBUG" if debug else "NORMAL"))
+    logger.debug("Execution args: " + str(sys.argv[1:]))
+
     return root_logger
 
 
@@ -205,7 +206,7 @@ def _publish_dbus_object(dbus, dbus_obj):
         logger.warning("Received terminate signal during Object publication on DBus, exit.")
 
 
-def _main_loop(dev, dbus_obj):
+def _main_loop(dev, dbus_obj, development=False):
     """ Current script's main loop. """
 
     global must_shutdown
@@ -214,7 +215,8 @@ def _main_loop(dev, dbus_obj):
     logger.info("Start {} Main Loop. Press (Ctrl+C) to quit.".format(FW_NAME))
     must_shutdown = False
     while not must_shutdown:
-        logger.info("  ==== ==== ==== ====")
+        if LOOP_SLEEP > 0:
+            logger.info("  ==== ==== ==== ====")
         logger.debug("Start fetch/pull device")
 
         try:
@@ -226,15 +228,16 @@ def _main_loop(dev, dbus_obj):
                 logger.warning("No data read, nothing to update")
             else:
                 for property_code in dev.latest_data:
-                    _process_property(dev, dbus_obj, property_code)
+                    _process_property(dev, dbus_obj, property_code, development)
 
         except KeyboardInterrupt:
             logger.info("Terminating required by the user.")
             must_shutdown = True
         except Exception as unknown_error:
-            logger.error("Unknown error on Main Loop: {}".format(unknown_error))
-            import traceback
-            traceback.print_exc()
+            logger.error("Unknown error on Main Loop: {}, retry later".format(unknown_error))
+            if development is True:
+                import traceback
+                traceback.print_exc()
 
         logger.debug("End fetch/pull device")
 
@@ -252,7 +255,7 @@ def _main_loop(dev, dbus_obj):
     logger.info(FW_NAME + " Main Loop terminated.")
 
 
-def _process_property(dev, dbus_obj, property_code):
+def _process_property(dev, dbus_obj, property_code, development=False):
     """
     Get and parse the Device's property and, if it used to elaborate a
     calculated value, the calculated value will be refreshed.
@@ -263,7 +266,7 @@ def _process_property(dev, dbus_obj, property_code):
         property_name = PROPS_CODES[property_code]['name']
         property_parser = PROPS_CODES[property_code]['parser']
     except KeyError:
-        logger.warning("Read unknown property code '{}' <{}>, skipped.".format(property_code, property_value_raw))
+        logger.warning("Read unknown property code '{}' <raw value: {}>, skipped.".format(property_code, property_value_raw))
         return
 
     try:
@@ -278,25 +281,35 @@ def _process_property(dev, dbus_obj, property_code):
             'time': datetime.now()
         }
         dbus_obj.update_property(property_name, property_value)
-        logger.info("R ==> '{:<16}={}'".format(property_name, "% 6.2f" % property_value))
-        _update_property_derivatives(dbus_obj, property_name)
+        logger.info("R ==> {:<16} = '{}'".format(property_name, str(property_value)))
+        _update_property_derivatives(dbus_obj, property_name, development)
 
     except ValueError:
         logger.warning("Property '{}' <{}> raw value malformed, skipped.".format(property_name, property_value_raw))
+        if development is True:
+            import traceback
+            traceback.print_exc()
     except TypeError:
         logger.warning("DBus property '{}' <{}> malformed, skipped.".format(property_name, property_value_raw))
+        if development is True:
+            import traceback
+            traceback.print_exc()
     except KeyError:
         logger.warning("Property '{}' not used by current DBus object definition, skipped.".format(property_name))
+        if development is True:
+            import traceback
+            traceback.print_exc()
     except KeyboardInterrupt as err:
         raise err
     except Exception as err:
-        logger.warning("Unknown error on parsing and updating property '{}': [{}] {}"
+        logger.warning("Unknown error on parsing and updating property '{}': [raw value: {}] {}"
                        .format(property_name, type(err), str(err)))
-        import traceback
-        traceback.print_exc()
+        if development is True:
+            import traceback
+            traceback.print_exc()
 
 
-def _update_property_derivatives(dbus_obj, property_name):
+def _update_property_derivatives(dbus_obj, property_name, development=False):
     """ Get and parse the Device's property and notify his update on DBus. """
 
     for c_property_name in CALC_PROPS_CODES:
@@ -322,16 +335,14 @@ def _update_property_derivatives(dbus_obj, property_name):
                 }
                 # Update property
                 dbus_obj.update_property(c_property_name, c_property_value)
-                logger.info("C ==> '{:<16}={}'".format(c_property_name, "% 6.2f" % c_property_value))
+                logger.info("C ==> {:<16} = '{}'".format(c_property_name, str(c_property_value)))
                 _update_property_derivatives(dbus_obj, c_property_name)
 
         except Exception as err:
             logger.warning("Error calculating '{}' property: {}".format(c_property_name, err))
-            # uncomment for calculators development
-            # print("###################################")
-            # import traceback
-            # traceback.print_exc()
-            # print("###################################")
+            if development is True:
+                import traceback
+                traceback.print_exc()
 
 
 def _register_kill_signals():
@@ -350,7 +361,7 @@ def __handle_kill_signals(signo, _stack_frame):
     must_shutdown = True
 
 
-def main(dbus_name, obj_path=None, dbus_iface=None, simulate_dev=False):
+def main(dbus_name, obj_path=None, dbus_iface=None, simulate_dev=False, development=False):
     """ Initialize a Device to read data and a DBus Object to share collected data. """
     global dev_global
 
@@ -361,10 +372,14 @@ def main(dbus_name, obj_path=None, dbus_iface=None, simulate_dev=False):
         dev_global = _init_device(True, simulate_dev)
         if not dev_global.is_connected and must_shutdown:
             exit(0)
+        if dev_global.device_type_code == "":
+            logger.warning("Device not recognized, exit.")
+            exit(-1)
     except Exception as err:
         logger.warning("Error on initializing Device: " + str(err))
-        import traceback
-        traceback.print_exc()
+        if development is True:
+            import traceback
+            traceback.print_exc()
         exit(-1)
 
     # Init DBus Object
@@ -374,8 +389,9 @@ def main(dbus_name, obj_path=None, dbus_iface=None, simulate_dev=False):
         dbus_obj = _init_dbus_object(dbus_name, dev_id, obj_path, dbus_iface)
     except Exception as err:
         logger.warning("Error on initializing DBus Object: " + str(err))
-        import traceback
-        traceback.print_exc()
+        if development is True:
+            import traceback
+            traceback.print_exc()
         exit(-1)
 
     # Publish on init DBus
@@ -404,7 +420,7 @@ def main(dbus_name, obj_path=None, dbus_iface=None, simulate_dev=False):
         exit(-1)
 
     try:
-        _main_loop(dev_global, dbus_obj)
+        _main_loop(dev_global, dbus_obj, development)
     except Exception as err:
         logger.warning("Error on main thread: " + str(err))
         exit(-1)
@@ -430,5 +446,5 @@ if __name__ == '__main__':
         args.quiet = False
 
     logger = _init_logging(args.dev, args.debug, args.quiet)
-    main(args.dbus_name, args.dbus_obj_path, args.dbus_iface, args.simulate)
+    main(args.dbus_name, args.dbus_obj_path, args.dbus_iface, args.simulate, args.dev)
     exit(EXIT_SUCCESS)
