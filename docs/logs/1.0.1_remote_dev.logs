@@ -1,0 +1,126 @@
+
+pi@raspberrypi:~/dev/fw_sensehat $ python run.py --dev
+[INFO   ] (2024-08-05 17:30:44,048) run.py::133 com.robypomper.smartvan.fw.sensehat:FW Sense Hat (Version: 1.0.1-DEV)
+[DEBUG  ] (2024-08-05 17:30:44,049) run.py::134 Execution mode: DEV
+[DEBUG  ] (2024-08-05 17:30:44,049) run.py::137 Execution args: ['--dev']
+[DEBUG  ] (2024-08-05 17:30:44,454) run.py::152 Read first data from device...
+[INFO   ] (2024-08-05 17:30:44,633) run.py::171 Connected to Device 'SenseHat(c)'.
+[DEBUG  ] (2024-08-05 17:30:44,633) daemon.py::27 Initialize DBus session...
+[DEBUG  ] (2024-08-05 17:30:44,638) daemon.py::31 DBus session initialized successfully
+[INFO   ] (2024-08-05 17:30:44,638) daemon.py::40 DBus Internal Loop starting...
+[INFO   ] (2024-08-05 17:30:44,639) daemon.py::61 DBus Internal Loop started.
+[INFO   ] (2024-08-05 17:30:44,639) obj.py::33 Publish DBus 'com.waveshare.sensehat_c' interface on 'com.waveshare.sensehat' DBus and '/sense_hat_c' object path.
+[INFO   ] (2024-08-05 17:30:44,649) run.py::215 Start FW Sense Hat Main Loop. Press (Ctrl+C) to quit.
+
+
+[INFO   ] (2024-08-05 17:30:44,650) run.py::219   ==== ==== ==== ====
+[DEBUG  ] (2024-08-05 17:30:44,650) run.py::220 Start fetch/pull device
+[DEBUG  ] (2024-08-05 17:30:44,828) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.model = SenseHat(c)'.
+[INFO   ] (2024-08-05 17:30:44,829) run.py::284 R ==> model            = 'SenseHat(c)'
+[DEBUG  ] (2024-08-05 17:30:44,831) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.roll = 5.43'.
+[INFO   ] (2024-08-05 17:30:44,832) run.py::284 R ==> roll             = '5.43'
+[DEBUG  ] (2024-08-05 17:30:44,833) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.pitch = -1.53'.
+[INFO   ] (2024-08-05 17:30:44,835) run.py::284 R ==> pitch            = '-1.53'
+[DEBUG  ] (2024-08-05 17:30:44,836) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.yaw = -178.1'.
+[INFO   ] (2024-08-05 17:30:44,837) run.py::284 R ==> yaw              = '-178.1'
+[DEBUG  ] (2024-08-05 17:30:44,837) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.acceleration_x = -228'.
+[INFO   ] (2024-08-05 17:30:44,838) run.py::284 R ==> acceleration_x   = '-228'
+[DEBUG  ] (2024-08-05 17:30:44,839) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.acceleration_y = 496'.
+[INFO   ] (2024-08-05 17:30:44,840) run.py::284 R ==> acceleration_y   = '496'
+[DEBUG  ] (2024-08-05 17:30:44,840) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.acceleration_z = 15452'.
+[INFO   ] (2024-08-05 17:30:44,841) run.py::284 R ==> acceleration_z   = '15452'
+[DEBUG  ] (2024-08-05 17:30:44,842) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.gyroscope_x = 11'.
+[INFO   ] (2024-08-05 17:30:44,843) run.py::284 R ==> gyroscope_x      = '11'
+[DEBUG  ] (2024-08-05 17:30:44,843) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.gyroscope_y = 4'.
+[INFO   ] (2024-08-05 17:30:44,844) run.py::284 R ==> gyroscope_y      = '4'
+[DEBUG  ] (2024-08-05 17:30:44,845) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.gyroscope_z = 16'.
+[INFO   ] (2024-08-05 17:30:44,846) run.py::284 R ==> gyroscope_z      = '16'
+[DEBUG  ] (2024-08-05 17:30:44,846) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.magnetic_x = 84'.
+[INFO   ] (2024-08-05 17:30:44,847) run.py::284 R ==> magnetic_x       = '84'
+[DEBUG  ] (2024-08-05 17:30:44,848) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.magnetic_y = -86'.
+[INFO   ] (2024-08-05 17:30:44,849) run.py::284 R ==> magnetic_y       = '-86'
+[DEBUG  ] (2024-08-05 17:30:44,849) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.magnetic_z = -303'.
+[INFO   ] (2024-08-05 17:30:44,850) run.py::284 R ==> magnetic_z       = '-303'
+[DEBUG  ] (2024-08-05 17:30:44,851) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.qmu_temperature = 39.58'.
+[INFO   ] (2024-08-05 17:30:44,852) run.py::284 R ==> qmu_temperature  = '39.58'
+[DEBUG  ] (2024-08-05 17:30:44,852) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.pressure = 981.34'.
+[INFO   ] (2024-08-05 17:30:44,853) run.py::284 R ==> pressure         = '981.34'
+[DEBUG  ] (2024-08-05 17:30:44,854) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.temperature_1 = 41.59'.
+[INFO   ] (2024-08-05 17:30:44,855) run.py::284 R ==> temperature_1    = '41.59'
+[DEBUG  ] (2024-08-05 17:30:44,855) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.temperature = 41.59'.
+[INFO   ] (2024-08-05 17:30:44,856) run.py::338 C ==> temperature      = '41.59'
+[DEBUG  ] (2024-08-05 17:30:44,857) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.analog_0 = 65475'.
+[INFO   ] (2024-08-05 17:30:44,858) run.py::284 R ==> analog_0         = '65475'
+[DEBUG  ] (2024-08-05 17:30:44,858) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.analog_1 = 65491'.
+[INFO   ] (2024-08-05 17:30:44,859) run.py::284 R ==> analog_1         = '65491'
+[DEBUG  ] (2024-08-05 17:30:44,860) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.analog_2 = 995'.
+[INFO   ] (2024-08-05 17:30:44,861) run.py::284 R ==> analog_2         = '995'
+[DEBUG  ] (2024-08-05 17:30:44,861) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.analog_3 = 1011'.
+[INFO   ] (2024-08-05 17:30:44,862) run.py::284 R ==> analog_3         = '1011'
+[DEBUG  ] (2024-08-05 17:30:44,863) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.temperature_2 = 40.79'.
+[INFO   ] (2024-08-05 17:30:44,864) run.py::284 R ==> temperature_2    = '40.79'
+[DEBUG  ] (2024-08-05 17:30:44,864) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.temperature = 40.79'.
+[INFO   ] (2024-08-05 17:30:44,865) run.py::338 C ==> temperature      = '40.79'
+[DEBUG  ] (2024-08-05 17:30:44,866) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.humidity = 29.39'.
+[INFO   ] (2024-08-05 17:30:44,867) run.py::284 R ==> humidity         = '29.39'
+[DEBUG  ] (2024-08-05 17:30:44,867) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.lux_rgb_r = 17'.
+[INFO   ] (2024-08-05 17:30:44,868) run.py::284 R ==> lux_rgb_r        = '17'
+[DEBUG  ] (2024-08-05 17:30:44,869) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.lux_rgb_g = 7'.
+[INFO   ] (2024-08-05 17:30:44,870) run.py::284 R ==> lux_rgb_g        = '7'
+[DEBUG  ] (2024-08-05 17:30:44,870) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.lux_rgb_b = 6'.
+[INFO   ] (2024-08-05 17:30:44,871) run.py::284 R ==> lux_rgb_b        = '6'
+[DEBUG  ] (2024-08-05 17:30:44,872) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.lux_c = 845'.
+[INFO   ] (2024-08-05 17:30:44,873) run.py::284 R ==> lux_c            = '845'
+[DEBUG  ] (2024-08-05 17:30:44,873) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.lux_rgb_565 = 4128'.
+[INFO   ] (2024-08-05 17:30:44,874) run.py::284 R ==> lux_rgb_565      = '4128'
+[DEBUG  ] (2024-08-05 17:30:44,875) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.lux_rgb_888 = 1115910'.
+[INFO   ] (2024-08-05 17:30:44,876) run.py::284 R ==> lux_rgb_888      = '1115910'
+[DEBUG  ] (2024-08-05 17:30:44,876) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.lux = 0'.
+[INFO   ] (2024-08-05 17:30:44,877) run.py::284 R ==> lux              = '0'
+[DEBUG  ] (2024-08-05 17:30:44,878) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.lux_interrupt = 0'.
+[INFO   ] (2024-08-05 17:30:44,879) run.py::284 R ==> lux_interrupt    = '0'
+[DEBUG  ] (2024-08-05 17:30:44,879) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.lux_color_temp = 1515.41'.
+[INFO   ] (2024-08-05 17:30:44,880) run.py::284 R ==> lux_color_temp   = '1515.41'
+[DEBUG  ] (2024-08-05 17:30:44,881) run.py::242 End fetch/pull device
+
+
+[INFO   ] (2024-08-05 17:30:46,883) run.py::219   ==== ==== ==== ====
+[DEBUG  ] (2024-08-05 17:30:46,883) run.py::220 Start fetch/pull device
+[DEBUG  ] (2024-08-05 17:30:47,062) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.roll = 6.49'.
+[INFO   ] (2024-08-05 17:30:47,063) run.py::284 R ==> roll             = '6.49'
+[DEBUG  ] (2024-08-05 17:30:47,063) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.pitch = -1.5'.
+[INFO   ] (2024-08-05 17:30:47,064) run.py::284 R ==> pitch            = '-1.5'
+[DEBUG  ] (2024-08-05 17:30:47,066) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.yaw = -177.5'.
+[INFO   ] (2024-08-05 17:30:47,068) run.py::284 R ==> yaw              = '-177.5'
+[DEBUG  ] (2024-08-05 17:30:47,068) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.acceleration_x = -283'.
+[INFO   ] (2024-08-05 17:30:47,070) run.py::284 R ==> acceleration_x   = '-283'
+[DEBUG  ] (2024-08-05 17:30:47,070) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.acceleration_y = 554'.
+[INFO   ] (2024-08-05 17:30:47,072) run.py::284 R ==> acceleration_y   = '554'
+[DEBUG  ] (2024-08-05 17:30:47,072) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.acceleration_z = 15484'.
+[INFO   ] (2024-08-05 17:30:47,073) run.py::284 R ==> acceleration_z   = '15484'
+[DEBUG  ] (2024-08-05 17:30:47,074) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.gyroscope_x = -2'.
+[INFO   ] (2024-08-05 17:30:47,075) run.py::284 R ==> gyroscope_x      = '-2'
+[DEBUG  ] (2024-08-05 17:30:47,076) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.gyroscope_y = -1'.
+[INFO   ] (2024-08-05 17:30:47,077) run.py::284 R ==> gyroscope_y      = '-1'
+[DEBUG  ] (2024-08-05 17:30:47,077) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.gyroscope_z = 8'.
+[INFO   ] (2024-08-05 17:30:47,078) run.py::284 R ==> gyroscope_z      = '8'
+[DEBUG  ] (2024-08-05 17:30:47,078) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.magnetic_x = 82'.
+[INFO   ] (2024-08-05 17:30:47,080) run.py::284 R ==> magnetic_x       = '82'
+[DEBUG  ] (2024-08-05 17:30:47,080) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.magnetic_y = -82'.
+[INFO   ] (2024-08-05 17:30:47,081) run.py::284 R ==> magnetic_y       = '-82'
+[DEBUG  ] (2024-08-05 17:30:47,081) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.qmu_temperature = 39.57'.
+[INFO   ] (2024-08-05 17:30:47,084) run.py::284 R ==> qmu_temperature  = '39.57'
+[DEBUG  ] (2024-08-05 17:30:47,084) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.pressure = 981.33'.
+[INFO   ] (2024-08-05 17:30:47,085) run.py::284 R ==> pressure         = '981.33'
+[DEBUG  ] (2024-08-05 17:30:47,086) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.temperature_1 = 41.6'.
+[INFO   ] (2024-08-05 17:30:47,087) run.py::284 R ==> temperature_1    = '41.6'
+[DEBUG  ] (2024-08-05 17:30:47,088) run.py::327 Value cached for 'temperature' <40.79>
+[DEBUG  ] (2024-08-05 17:30:47,088) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.analog_0 = 195'.
+[INFO   ] (2024-08-05 17:30:47,089) run.py::284 R ==> analog_0         = '195'
+[DEBUG  ] (2024-08-05 17:30:47,090) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.temperature_2 = 40.82'.
+[INFO   ] (2024-08-05 17:30:47,091) run.py::284 R ==> temperature_2    = '40.82'
+[DEBUG  ] (2024-08-05 17:30:47,092) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.temperature = 40.82'.
+[INFO   ] (2024-08-05 17:30:47,093) run.py::338 C ==> temperature      = '40.82'
+[DEBUG  ] (2024-08-05 17:30:47,093) obj.py::46 Object '/sense_hat_c' property update 'com.waveshare.sensehat_c.humidity = 29.4'.
+[INFO   ] (2024-08-05 17:30:47,095) run.py::284 R ==> humidity         = '29.4'
+[DEBUG  ] (2024-08-05 17:30:47,096) run.py::242 End fetch/pull device
