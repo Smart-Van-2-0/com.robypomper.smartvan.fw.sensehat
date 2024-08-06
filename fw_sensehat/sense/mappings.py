@@ -4,6 +4,7 @@ from fw_sensehat.commons import *
 from ._definitions import *
 from ._dbus_descs import *
 from ._parsers import *
+from ._calculated import *
 
 # Given an PID, this object returns all his info and meta-data
 PID = {
@@ -53,7 +54,6 @@ PROPS_CODES = {
                    "parser": props_parser_int},
     "ads1015_a2": {"name": "analog_2", "desc": "ADS1015 Analog input 2",
                    "parser": props_parser_int},
-
     "ads1015_a3": {"name": "analog_3", "desc": "ADS1015 Analog input 3",
                    "parser": props_parser_int},
 
@@ -84,5 +84,12 @@ PROPS_CODES = {
 }
 
 CALC_PROPS_CODES = {
-    # N/A
+    "analog_0_perc": {"depends_on": "analog_0",
+                           "calculator": calc_analog_0_perc},
+    "analog_1_perc": {"depends_on": "analog_1",
+                           "calculator": calc_analog_1_perc},
+    "analog_2_perc": {"depends_on": "analog_2",
+                           "calculator": calc_analog_2_perc},
+    "analog_3_perc": {"depends_on": "analog_3",
+                           "calculator": calc_analog_3_perc},
 }
