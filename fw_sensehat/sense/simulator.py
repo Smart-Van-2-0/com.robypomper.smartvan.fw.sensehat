@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 
-from .device import Device
-from .mappings import *
-from ..commons import regenerateValue
+from fw_sensehat.sense.device import Device
+from fw_sensehat.base.commons import regenerateValueMaxMin
 
 
 class DeviceSimulator(Device):
 
-    def __init__(self, auto_refresh = False):
-        super().__init__(auto_refresh)
+    def __init__(self):
+        super().__init__(False)
         self._data = {
             'hardcoded_model': 'SenseHat(c)',
             'imu_roll': '0.06830104668952965',

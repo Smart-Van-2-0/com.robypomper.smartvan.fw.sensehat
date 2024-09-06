@@ -11,7 +11,7 @@ except:
     _gpio_loaded = False
 
 from fw_sensehat.sense.mappings import *
-from fw_sensehat.device import DeviceAbs
+from fw_sensehat.base.device import DeviceAbs
 from fw_sensehat.sense.chip.IMU import IMU
 from fw_sensehat.sense.chip.LPS22HB import LPS22HB
 from fw_sensehat.sense.chip.ADS1015 import ADS1015
@@ -33,6 +33,8 @@ class Device(DeviceAbs):
     """
 
     def __init__(self, auto_refresh=True):
+        super().__init__()
+
         self._data = {}
 
         self._is_connected = False

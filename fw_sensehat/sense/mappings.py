@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-from fw_sensehat.commons import *
-from ._definitions import *
-from ._dbus_descs import *
-from ._parsers import *
-from ._calculated import *
+from fw_sensehat.base.commons import *
+from fw_sensehat.sense._definitions import *
+from fw_sensehat.sense._dbus_descs import *
+from fw_sensehat.sense._parsers import *
+from fw_sensehat.sense._calculated import *
 
 # Given an PID, this object returns all his info and meta-data
 PID = {

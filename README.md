@@ -123,11 +123,11 @@ Module's files can be grouped in 2 categories:
   class that represent aDBus object to publish
 * [dbus/daemon.py](/fw_sensehat/dbus/daemon.py):
   methods to handle the DBus daemon
-* [commons.py](/fw_sensehat/commons.py):
+* [commons.py](/fw_sensehat/base/commons.py):
   commons properties parsers and simulator methods
-* [device.py](/fw_sensehat/device.py):
+* [device.py](/fw_sensehat/base/device.py):
   base class for devices
-* [device_serial.py](/fw_sensehat/device_serial.py):
+* [device_serial.py](/fw_sensehat/base/device_serial.py):
   base implementation for serial devices
 
 ## References
