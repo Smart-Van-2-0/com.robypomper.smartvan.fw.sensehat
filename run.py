@@ -5,7 +5,6 @@ import sys
 import argparse
 from datetime import datetime, timedelta
 import time
-import signal
 
 from fw_sensehat.sense.device import Device
 from fw_sensehat.sense.simulator import DeviceSimulator
@@ -21,6 +20,10 @@ FW_DESC = "Python script as {} firmware".format(FW_NAME)
 FW_GROUP = "com.robypomper.smartvan.fw.sensehat"
 """ Version of the current script """
 FW_VERSION = "1.0.1-DEV"
+# """ Value to use as default serial port """
+# DEF_SERIAL_PORT = "/dev/ttyUSB0"
+# """ Value to use as default serial port speed """
+# DEF_SERIAL_SPEED = 19200
 """ Value to use as default DBus name """
 DEF_DBUS_NAME = "com.waveshare.sensehat"
 """ Value to use as default DBus object path, if none  """
@@ -55,7 +58,6 @@ EXIT_INIT_DBUS = 2
 # default logger, used if _setup_logging() was not called
 logger = logging.getLogger()
 dev_global: Optional[Device] = None
-must_shutdown = False
 properties_cache = {}
 
 
@@ -70,6 +72,12 @@ def _cli_args():
 
     parser = argparse.ArgumentParser(description=FW_DESC)
     group01 = parser.add_argument_group()
+    # group01.add_argument("--port", default=DEF_SERIAL_PORT,
+    #                      help="Serial port name "
+    #                           "(default: {})".format(DEF_SERIAL_PORT))
+    # group01.add_argument("--speed", type=int, default=DEF_SERIAL_SPEED,
+    #                      help="Serial port speed "
+    #                           "(default: {})".format(DEF_SERIAL_SPEED))
     group01.add_argument("--simulate", default=False,
                          action="store_true", required=False,
                          help="Simulate a Sense Hat (c) Device "
@@ -142,32 +150,36 @@ def _init_logging(dev, debug, quiet):
 def _init_device(wait_connection=True, simulate_dev=False) -> Device:
     """ Init and configure Device. """
 
-    global must_shutdown, dev_global
+    global dev_global
 
     if simulate_dev:
         logger.debug("Simulate device")
         return DeviceSimulator()
 
+    logger.info("Connecting to device...")
     dev = Device(False)
     logger.debug("Read first data from device...")
     dev.refresh()
 
-    if must_shutdown:
+    if dev.must_terminate:
         logger.warning("Received terminate signal during Device initialization, exit.")
     elif not dev.is_connected and wait_connection:
         logger.warning("Device not available, retry in {} seconds. Press (Ctrl+C) to exit.".format(CONN_RETRY))
         try:
-            must_shutdown = False
-            while not dev.is_connected and not must_shutdown:
+            while True:
                 time.sleep(CONN_RETRY)
                 dev.refresh()
-                if not dev.is_connected:
+                if not dev.is_connected and not dev.must_terminate:
                     logger.debug("Device still not available, retry in {} seconds.".format(CONN_RETRY))
+                else:
+                    break
         except KeyboardInterrupt:
             logger.info("Terminating required by the user.")
             exit(EXIT_INIT_TERMINATED)
 
-    if dev.is_connected:
+    if dev.must_terminate:
+        logger.warning("Terminating required by the user")
+    elif dev.is_connected:
         logger.info("Connected to Device '{}'.".format(dev.device_pid))
     else:
         logger.info("Initialized Device, but not connected.")
@@ -188,9 +200,9 @@ def _init_dbus_object(dbus_name, dev_id, dbus_obj_path, dbus_iface) -> DBusObjec
 
 
 def _publish_dbus_object(dbus, dbus_obj):
-    global must_shutdown
+    global dev_global
 
-    while not must_shutdown:
+    while not dev_global.must_terminate:
         try:
             dbus_obj.publish(dbus)
             break
@@ -202,19 +214,18 @@ def _publish_dbus_object(dbus, dbus_obj):
             else:
                 raise RuntimeError("Can't publish the object on DBus") from err
 
-    if must_shutdown:
+    if dev_global.must_terminate:
         logger.warning("Received terminate signal during Object publication on DBus, exit.")
 
 
 def _main_loop(dev, dbus_obj, development=False):
     """ Current script's main loop. """
 
-    global must_shutdown
+    global dev_global
 
     # Main thread loop
     logger.info("Start {} Main Loop. Press (Ctrl+C) to quit.".format(FW_NAME))
-    must_shutdown = False
-    while not must_shutdown:
+    while not dev_global.must_terminate:
         if LOOP_SLEEP > 0:
             logger.info("  ==== ==== ==== ====")
         logger.debug("Start fetch/pull device")
@@ -232,25 +243,27 @@ def _main_loop(dev, dbus_obj, development=False):
 
         except KeyboardInterrupt:
             logger.info("Terminating required by the user.")
-            must_shutdown = True
+            dev_global.terminate()
         except Exception as unknown_error:
             logger.error("Unknown error on Main Loop: {}, retry later".format(unknown_error))
-            if development is True:
-                import traceback
-                traceback.print_exc()
+            #if development is True:
+            print("Error traceback:")
+            logger.error("Error traceback:")
+            import traceback
+            traceback.print_exc()
 
         logger.debug("End fetch/pull device")
 
         sleepTime = LOOP_SLEEP if dev.is_connected else CONN_RETRY
         try:
             for i in range(sleepTime):
-                if must_shutdown:
+                if dev_global.must_terminate:
                     break
                 time.sleep(1)
 
         except KeyboardInterrupt:
             logger.info("Terminating required by the user.")
-            must_shutdown = True
+            dev_global.terminate()
 
     logger.info(FW_NAME + " Main Loop terminated.")
 
@@ -262,6 +275,10 @@ def _process_property(dev, dbus_obj, property_code, development=False):
     """
 
     property_value_raw = dev.latest_data[property_code]
+    if property_value_raw is None:
+        logger.warning("Property '{}' <raw value: {}> not available, skipped.".format(property_code, property_value_raw))
+        return
+
     try:
         property_name = PROPS_CODES[property_code]['name']
         property_parser = PROPS_CODES[property_code]['parser']
@@ -345,32 +362,14 @@ def _update_property_derivatives(dbus_obj, property_name, development=False):
                 traceback.print_exc()
 
 
-def _register_kill_signals():
-    signal.signal(signal.SIGINT, __handle_kill_signals)
-    signal.signal(signal.SIGTERM, __handle_kill_signals)
-
-
-def __handle_kill_signals(signo, _stack_frame):
-    global must_shutdown
-
-    logger.info("Received `{}` signal. Shutting down...".format(signo))
-    # SIGINT    2   <= Ctrl+C
-    # SIGTERM   15  <= kill PID
-    if dev_global is not None:
-        dev_global.terminate()
-    must_shutdown = True
-
-
 def main(dbus_name, obj_path=None, dbus_iface=None, simulate_dev=False, development=False):
     """ Initialize a Device to read data and a DBus Object to share collected data. """
     global dev_global
 
-    _register_kill_signals()
-
     # Init Device
     try:
         dev_global = _init_device(True, simulate_dev)
-        if not dev_global.is_connected and must_shutdown:
+        if not dev_global.is_connected and dev_global.must_terminate:
             exit(0)
         if dev_global.device_type_code == "":
             logger.warning("Device not recognized, exit.")
