@@ -8,7 +8,7 @@ the [Smart Van Project](https://smartvan.johnosproject.org/).
 
 **FW Name:** FW Sense Hat<br />
 **FW Group:** com.robypomper.smartvan.fw.sensehat<br />
-**FW Version:** 1.0.0
+**FW Version:** 1.0.1
 
 [README](README.md) | [CHANGELOG](CHANGELOG.md) | [TODOs](TODOs.md) | [LICENCE](LICENCE.md)
 
@@ -20,6 +20,18 @@ the `fw_sensehat/sense/chip` folder). These files facilitate the reading and
 processing of raw data collected by the sensors. More info 
 on [Supported devices](/docs/supported_devices.md)
 and [value mapping](/docs/values_mapping.md).
+
+Here the list of chips integrated into the Sense Hat:
+
+| Chip                                                                                                                           | Description                                                                        | I2C Address |
+|--------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|-------------|
+| [QMI8658C](https://www.qstcorp.com/upload/pdf/202202/%EF%BC%88%E5%B7%B2%E4%BC%A0%EF%BC%89QMI8658C%20datasheet%20rev%200.9.pdf) | 6D Inertial Measurement Unit with Motion Co-Processor and Sensor Fusion            | `0x6B`      |
+| [AK09918](https://www.mouser.it/datasheet/2/1431/ak09918c_en_datasheet-3010173.pdf)                                            | 3-Axis Electronic Compass                                                          | `0x0C`      |
+| [SHTC3](https://www.mouser.it/datasheet/2/682/seri_s_a0003561073_1-2291167.pdf)                                                | Humidity and Temperature Sensor IC                                                 | `0x70`      |
+| [ADS1015](https://www.ti.com/lit/ds/symlink/ads1015.pdf)                                                                       | Ultra-Small, Low-Power, 12-Bit Analog-to-Digital Converter with Internal Reference | `0x48`      |
+| [LPS22HB](https://www.mouser.it/datasheet/2/389/lps22hb-1849683.pdf)                                                           | MEMS nano pressure sensor: 260-1260 hPa absolute digital output barometer          | `0x5C`      |
+| [TCS34087](https://www.mouser.it/datasheet/2/588/asset_pdf_25493284-3418902.pdf)                                               | ALS/Color Sensor with Selective Flicker Detection                                  | `0x29`      |
+
 
 ## Run
 
@@ -100,34 +112,34 @@ Module's files can be grouped in 2 categories:
 
 **Definitions:**
 
-* [ups/mappings.py](/fw_upspack_v3/ups/mappings.py):
+* [sense/mappings.py](/fw_sensehat/sense/mappings.py):
   definition of `PID`, `PROPS_CODES` and `CALC_PROPS_CODES` tables
-* [ups/_definitions.py](/fw_upspack_v3/ups/_definitions.py):
+* [sense/_definitions.py](/fw_sensehat/sense/_definitions.py):
   definitions of supported devices, DUbus ifaces and custom properties types
-* [ups/_parsers.py](/fw_upspack_v3/ups/_parsers.py):
+* [sense/_parsers.py](/fw_sensehat/sense/_parsers.py):
   custom properties parsers
-* [ups/_calculated.py](/fw_upspack_v3/ups/_calculated.py):
+* [sense/_calculated.py](/fw_sensehat/sense/_calculated.py):
   custom properties calculators and data generator methods for simulator
-* [ups/_dbus_descs.py](/fw_upspack_v3/ups/_dbus_descs.py):
+* [sense/_dbus_descs.py](/fw_sensehat/sense/_dbus_descs.py):
   definition of DBus iface's descriptors
 
 **Operations:**
 
 * [run.py](run.py):
   main firmware script
-* [ups/device.py](/fw_upspack_v3/ups/device.py):
+* [sense/device.py](/fw_sensehat/sense/device.py):
   class that represent the device
-* [ups/simulator.py](/fw_upspack_v3/ups/simulator.py):
+* [sense/simulator.py](/fw_sensehat/sense/simulator.py):
   class that represent the simulated device
-* [dbus/obj.py](/fw_upspack_v3/dbus/obj.py):
+* [dbus/obj.py](/fw_sensehat/dbus/obj.py):
   class that represent aDBus object to publish
-* [dbus/daemon.py](/fw_upspack_v3/dbus/daemon.py):
+* [dbus/daemon.py](/fw_sensehat/dbus/daemon.py):
   methods to handle the DBus daemon
-* [commons.py](/fw_upspack_v3/commons.py):
+* [base/commons.py](/fw_sensehat/base/commons.py):
   commons properties parsers and simulator methods
-* [device.py](/fw_upspack_v3/device.py):
+* [base/device.py](/fw_sensehat/base/device.py):
   base class for devices
-* [device_serial.py](/fw_upspack_v3/device_serial.py):
+* [base/device_serial.py](/fw_sensehat/base/device_serial.py):
   base implementation for serial devices
 
 ## References

@@ -618,3 +618,29 @@ class TCS34087:
         except ZeroDivisionError:
             return 0.0
         return cct
+
+    def readAll(self):
+        self.Get_RGBData()
+        self.GetRGB888()
+        self.GetRGB565()
+
+    def get_last_rgb(self) -> (int, int, int):
+        return self.RGB888_R, self.RGB888_G, self.RGB888_B
+
+    def get_last_clear(self) -> int:
+        return self.C
+
+    def get_last_rgb565(self) -> int:
+        return self.RGB565
+
+    def get_last_rgb888(self) -> int:
+        return self.RGB888
+
+    def get_last_lux(self) -> int:
+        return self.Get_Lux()
+
+    def get_last_lux_interrupt(self) -> int:
+        return self.GetLux_Interrupt()
+
+    def get_last_color_temp(self) -> float:
+        return round(self.Get_ColorTemp(), 2)

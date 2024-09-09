@@ -19,31 +19,31 @@ DEV_DBUS_DESC_SenseHat = '''<node>
     <property name="yaw" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="acceleration_x" type="d" access="read">
+    <property name="acceleration_x" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="acceleration_y" type="d" access="read">
+    <property name="acceleration_y" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="acceleration_z" type="d" access="read">
+    <property name="acceleration_z" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="gyroscope_x" type="d" access="read">
+    <property name="gyroscope_x" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="gyroscope_y" type="d" access="read">
+    <property name="gyroscope_y" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="gyroscope_z" type="d" access="read">
+    <property name="gyroscope_z" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="magnetic_x" type="d" access="read">
+    <property name="magnetic_x" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="magnetic_y" type="d" access="read">
+    <property name="magnetic_y" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="magnetic_z" type="d" access="read">
+    <property name="magnetic_z" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
     <property name="qmu_temperature" type="d" access="read">
@@ -53,51 +53,73 @@ DEV_DBUS_DESC_SenseHat = '''<node>
     <property name="pressure" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="temperature" type="d" access="read">
+    <property name="temperature_1" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
     
-    <property name="analog_0" type="d" access="read">
+    <property name="analog_0" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="analog_1" type="d" access="read">
+    <property name="analog_1" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="analog_2" type="d" access="read">
+    <property name="analog_2" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="analog_3" type="d" access="read">
+    <property name="analog_3" type="i" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
+    </property>
+    <property name="analog_0_perc" type="d" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
+    </property>
+    <property name="analog_1_perc" type="d" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
+    </property>
+    <property name="analog_2_perc" type="d" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
+    </property>
+    <property name="analog_3_perc" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
     
-    <property name="lux_rgb_r" type="d" access="read">
+    <property name="temperature_2" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="lux_rgb_g" type="d" access="read">
+    <property name="humidity" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="lux_rgb_b" type="d" access="read">
+    
+    <property name="lux_rgb_r" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="lux_c" type="d" access="read">
+    <property name="lux_rgb_g" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="lux_rgb_565" type="d" access="read">
+    <property name="lux_rgb_b" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="lux_rgb_888" type="d" access="read">
+    <property name="lux_c" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="lux" type="d" access="read">
+    <property name="lux_rgb_565" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
-    <property name="lux_interrupt" type="d" access="read">
+    <property name="lux_rgb_888" type="i" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
+    </property>
+    <property name="lux" type="i" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
+    </property>
+    <property name="lux_interrupt" type="i" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
     <property name="lux_color_temp" type="d" access="read">
       <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
     </property>
     
+    <property name="temperature" type="d" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
+    </property>
   </interface>
 </node>
 '''
