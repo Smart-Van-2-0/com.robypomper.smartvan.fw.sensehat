@@ -1,0 +1,62 @@
+
+(venv) robypomper@roby-hp:~/Workspaces/SmartVan/Sources/com.robypomper.smartvan.fw.sensehat$ python run.py --simulate
+WARN: RPi.GPIO module disabled.
+WARN: RPi.GPIO module disabled.
+(2024-08-05 18:33:15,501) [INFO   ] com.robypomper.smartvan.fw.sensehat:FW Sense Hat (Version: 1.0.1-DEV)
+(2024-08-05 18:33:15,503) [INFO   ] DBus Internal Loop starting...
+(2024-08-05 18:33:15,503) [INFO   ] DBus Internal Loop started.
+(2024-08-05 18:33:15,503) [INFO   ] Publish DBus 'com.waveshare.sensehat_c' interface on 'com.waveshare.sensehat' DBus and '/sense_hat_c' object path.
+(2024-08-05 18:33:15,506) [INFO   ] Start FW Sense Hat Main Loop. Press (Ctrl+C) to quit.
+
+
+(2024-08-05 18:33:15,506) [INFO   ]   ==== ==== ==== ====
+(2024-08-05 18:33:15,506) [INFO   ] R ==> model            = 'SenseHat(c)'
+(2024-08-05 18:33:15,506) [INFO   ] R ==> roll             = '0.09930104668952965'
+(2024-08-05 18:33:15,507) [INFO   ] R ==> pitch            = '-0.703470848515366'
+(2024-08-05 18:33:15,507) [INFO   ] R ==> yaw              = '160.71708277388566'
+(2024-08-05 18:33:15,507) [INFO   ] R ==> acceleration_x   = '0'
+(2024-08-05 18:33:15,507) [INFO   ] R ==> acceleration_y   = '0'
+(2024-08-05 18:33:15,507) [INFO   ] R ==> acceleration_z   = '0'
+(2024-08-05 18:33:15,507) [INFO   ] R ==> gyroscope_x      = '0'
+(2024-08-05 18:33:15,507) [INFO   ] R ==> gyroscope_y      = '0'
+(2024-08-05 18:33:15,508) [INFO   ] R ==> gyroscope_z      = '0'
+(2024-08-05 18:33:15,508) [INFO   ] R ==> magnetic_x       = '0'
+(2024-08-05 18:33:15,508) [INFO   ] R ==> magnetic_y       = '0'
+(2024-08-05 18:33:15,508) [INFO   ] R ==> magnetic_z       = '0'
+(2024-08-05 18:33:15,509) [INFO   ] R ==> qmu_temperature  = '23.8971125'
+(2024-08-05 18:33:15,509) [INFO   ] R ==> pressure         = '996.481605859375'
+(2024-08-05 18:33:15,509) [INFO   ] R ==> temperature_1    = '26.089'
+(2024-08-05 18:33:15,509) [INFO   ] C ==> temperature      = '26.089'
+(2024-08-05 18:33:15,509) [INFO   ] R ==> analog_0         = '600'
+(2024-08-05 18:33:15,510) [INFO   ] R ==> analog_1         = '900'
+(2024-08-05 18:33:15,510) [INFO   ] R ==> analog_2         = '900'
+(2024-08-05 18:33:15,510) [INFO   ] R ==> analog_3         = '900'
+(2024-08-05 18:33:15,510) [INFO   ] R ==> temperature_2    = '23.8306125'
+(2024-08-05 18:33:15,510) [INFO   ] C ==> temperature      = '23.8306125'
+(2024-08-05 18:33:15,511) [INFO   ] R ==> humidity         = '29.843022400000002'
+(2024-08-05 18:33:15,511) [INFO   ] R ==> lux_rgb_r        = '20'
+(2024-08-05 18:33:15,511) [INFO   ] R ==> lux_rgb_g        = '9'
+(2024-08-05 18:33:15,511) [INFO   ] R ==> lux_rgb_b        = '9'
+(2024-08-05 18:33:15,511) [INFO   ] R ==> lux_c            = '1044'
+(2024-08-05 18:33:15,512) [INFO   ] R ==> lux_rgb_565      = '4161'
+(2024-08-05 18:33:15,512) [INFO   ] R ==> lux_rgb_888      = '1378826'
+(2024-08-05 18:33:15,512) [INFO   ] R ==> lux              = '0'
+(2024-08-05 18:33:15,512) [INFO   ] R ==> lux_interrupt    = '0'
+(2024-08-05 18:33:15,512) [INFO   ] R ==> lux_color_temp   = '1507.0093429731417'
+
+
+(2024-08-05 18:33:17,515) [INFO   ]   ==== ==== ==== ====
+(2024-08-05 18:33:17,515) [INFO   ] R ==> roll             = '0.06360104668952965'
+(2024-08-05 18:33:17,515) [INFO   ] R ==> pitch            = '-0.717170848515366'
+(2024-08-05 18:33:17,516) [INFO   ] R ==> yaw              = '160.73238277388566'
+(2024-08-05 18:33:17,516) [INFO   ] R ==> qmu_temperature  = '23.903812499999997'
+(2024-08-05 18:33:17,516) [INFO   ] R ==> pressure         = '996.4379058593751'
+(2024-08-05 18:33:17,516) [INFO   ] R ==> temperature_1    = '26.049799999999998'
+(2024-08-05 18:33:17,517) [INFO   ] R ==> temperature_2    = '23.7968125'
+(2024-08-05 18:33:17,517) [INFO   ] C ==> temperature      = '23.7968125'
+(2024-08-05 18:33:17,517) [INFO   ] R ==> humidity         = '29.877922400000003'
+(2024-08-05 18:33:17,517) [INFO   ] R ==> lux_rgb_g        = '8'
+(2024-08-05 18:33:17,517) [INFO   ] R ==> lux_c            = '1043'
+(2024-08-05 18:33:17,517) [INFO   ] R ==> lux_rgb_565      = '4160'
+(2024-08-05 18:33:17,518) [INFO   ] R ==> lux_rgb_888      = '1378825'
+(2024-08-05 18:33:17,518) [INFO   ] R ==> lux_color_temp   = '1506.9869429731416'

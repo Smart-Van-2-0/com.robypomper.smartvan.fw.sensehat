@@ -1,0 +1,68 @@
+
+pi@raspberrypi:~/dev/fw_sensehat $ python run.py
+(2024-08-05 17:29:38,876) [INFO   ] com.robypomper.smartvan.fw.sensehat:FW Sense Hat (Version: 1.0.1-DEV)
+(2024-08-05 17:29:39,472) [INFO   ] Connected to Device 'SenseHat(c)'.
+(2024-08-05 17:29:39,483) [INFO   ] DBus Internal Loop starting...
+(2024-08-05 17:29:39,485) [INFO   ] DBus Internal Loop started.
+(2024-08-05 17:29:39,485) [INFO   ] Publish DBus 'com.waveshare.sensehat_c' interface on 'com.waveshare.sensehat' DBus and '/sense_hat_c' object path.
+(2024-08-05 17:29:39,511) [INFO   ] Start FW Sense Hat Main Loop. Press (Ctrl+C) to quit.
+
+
+(2024-08-05 17:29:39,512) [INFO   ]   ==== ==== ==== ====
+(2024-08-05 17:29:39,694) [INFO   ] R ==> model            = 'SenseHat(c)'
+(2024-08-05 17:29:39,697) [INFO   ] R ==> roll             = '5.23'
+(2024-08-05 17:29:39,700) [INFO   ] R ==> pitch            = '-1.47'
+(2024-08-05 17:29:39,702) [INFO   ] R ==> yaw              = '-178.29'
+(2024-08-05 17:29:39,705) [INFO   ] R ==> acceleration_x   = '-282'
+(2024-08-05 17:29:39,708) [INFO   ] R ==> acceleration_y   = '528'
+(2024-08-05 17:29:39,711) [INFO   ] R ==> acceleration_z   = '15504'
+(2024-08-05 17:29:39,713) [INFO   ] R ==> gyroscope_x      = '-29'
+(2024-08-05 17:29:39,716) [INFO   ] R ==> gyroscope_y      = '19'
+(2024-08-05 17:29:39,718) [INFO   ] R ==> gyroscope_z      = '6'
+(2024-08-05 17:29:39,721) [INFO   ] R ==> magnetic_x       = '83'
+(2024-08-05 17:29:39,724) [INFO   ] R ==> magnetic_y       = '-85'
+(2024-08-05 17:29:39,726) [INFO   ] R ==> magnetic_z       = '-306'
+(2024-08-05 17:29:39,728) [INFO   ] R ==> qmu_temperature  = '39.57'
+(2024-08-05 17:29:39,730) [INFO   ] R ==> pressure         = '981.32'
+(2024-08-05 17:29:39,732) [INFO   ] R ==> temperature_1    = '41.57'
+(2024-08-05 17:29:39,734) [INFO   ] C ==> temperature      = '41.57'
+(2024-08-05 17:29:39,736) [INFO   ] R ==> analog_0         = '65475'
+(2024-08-05 17:29:39,738) [INFO   ] R ==> analog_1         = '65491'
+(2024-08-05 17:29:39,740) [INFO   ] R ==> analog_2         = '995'
+(2024-08-05 17:29:39,741) [INFO   ] R ==> analog_3         = '1011'
+(2024-08-05 17:29:39,743) [INFO   ] R ==> temperature_2    = '40.78'
+(2024-08-05 17:29:39,745) [INFO   ] C ==> temperature      = '40.78'
+(2024-08-05 17:29:39,747) [INFO   ] R ==> humidity         = '29.4'
+(2024-08-05 17:29:39,749) [INFO   ] R ==> lux_rgb_r        = '18'
+(2024-08-05 17:29:39,751) [INFO   ] R ==> lux_rgb_g        = '7'
+(2024-08-05 17:29:39,753) [INFO   ] R ==> lux_rgb_b        = '9'
+(2024-08-05 17:29:39,754) [INFO   ] R ==> lux_c            = '861'
+(2024-08-05 17:29:39,756) [INFO   ] R ==> lux_rgb_565      = '4129'
+(2024-08-05 17:29:39,758) [INFO   ] R ==> lux_rgb_888      = '1181449'
+(2024-08-05 17:29:39,760) [INFO   ] R ==> lux              = '0'
+(2024-08-05 17:29:39,762) [INFO   ] R ==> lux_interrupt    = '0'
+(2024-08-05 17:29:39,763) [INFO   ] R ==> lux_color_temp   = '1512.68'
+
+
+(2024-08-05 17:29:41,766) [INFO   ]   ==== ==== ==== ====
+(2024-08-05 17:29:41,949) [INFO   ] R ==> roll             = '6.37'
+(2024-08-05 17:29:41,952) [INFO   ] R ==> pitch            = '-1.52'
+(2024-08-05 17:29:41,956) [INFO   ] R ==> yaw              = '-177.74'
+(2024-08-05 17:29:41,958) [INFO   ] R ==> acceleration_x   = '-226'
+(2024-08-05 17:29:41,961) [INFO   ] R ==> acceleration_y   = '584'
+(2024-08-05 17:29:41,964) [INFO   ] R ==> acceleration_z   = '15426'
+(2024-08-05 17:29:41,967) [INFO   ] R ==> gyroscope_x      = '3'
+(2024-08-05 17:29:41,970) [INFO   ] R ==> gyroscope_y      = '7'
+(2024-08-05 17:29:41,973) [INFO   ] R ==> gyroscope_z      = '1'
+(2024-08-05 17:29:41,976) [INFO   ] R ==> magnetic_x       = '74'
+(2024-08-05 17:29:41,979) [INFO   ] R ==> magnetic_y       = '-80'
+(2024-08-05 17:29:41,982) [INFO   ] R ==> magnetic_z       = '-304'
+(2024-08-05 17:29:41,985) [INFO   ] R ==> qmu_temperature  = '39.6'
+(2024-08-05 17:29:41,988) [INFO   ] R ==> pressure         = '981.34'
+(2024-08-05 17:29:41,992) [INFO   ] R ==> temperature_1    = '41.59'
+(2024-08-05 17:29:41,995) [INFO   ] R ==> analog_0         = '195'
+(2024-08-05 17:29:41,998) [INFO   ] R ==> temperature_2    = '40.75'
+(2024-08-05 17:29:42,001) [INFO   ] C ==> temperature      = '40.75'
+(2024-08-05 17:29:42,004) [INFO   ] R ==> humidity         = '29.37'
+(2024-08-05 17:29:42,007) [INFO   ] R ==> lux_c            = '863'
+(2024-08-05 17:29:42,010) [INFO   ] R ==> lux_color_temp   = '1512.43'

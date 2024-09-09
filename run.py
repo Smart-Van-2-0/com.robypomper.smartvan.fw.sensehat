@@ -15,7 +15,7 @@ FW_SETTINGS = {
     # Group of the current script (default: None)
     Settings.FW_GROUP: "com.robypomper.smartvan.fw.sensehat",
     # Version of the current script (default: None)
-    Settings.FW_VERSION: "1.0.1-DEV",
+    Settings.FW_VERSION: "1.0.1",
     # Description of the current script (default: None)
     Settings.FW_DESC: "Python script as FW Sense Hat",
     # Name of the current script (default: None)

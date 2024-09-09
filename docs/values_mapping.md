@@ -43,16 +43,18 @@ For each property are defined following fields:
 | `imu_gyroscope_x`        | `gyroscope_x`        | IMU Gyroscope x axis       | `props_parser_int`   |
 | `imu_gyroscope_y`        | `gyroscope_y`        | IMU Gyroscope y axis       | `props_parser_int`   |
 | `imu_gyroscope_z`        | `gyroscope_z`        | IMU Gyroscope z axis       | `props_parser_int`   |
-| `imu_magnetic_x`         | `magnetic_x`         | IMU Magnetic x axis        | `props_parser_float` |
-| `imu_magnetic_y`         | `magnetic_y`         | IMU Magnetic y axis        | `props_parser_float` |
-| `imu_magnetic_z`         | `magnetic_z`         | IMU Magnetic z axis        | `props_parser_float` |
+| `imu_magnetic_x`         | `magnetic_x`         | IMU Magnetic x axis        | `props_parser_int`   |
+| `imu_magnetic_y`         | `magnetic_y`         | IMU Magnetic y axis        | `props_parser_int`   |
+| `imu_magnetic_z`         | `magnetic_z`         | IMU Magnetic z axis        | `props_parser_int`   |
 | `imu_qmi_temperature`    | `qmu_temperature`    | IMU Temperature            | `props_parser_float` |
 | `lps22hb_pressure`       | `pressure`           | LPS22HB Pressure           | `props_parser_float` |
-| `lps22hb_temperature`    | `temperature`        | LPS22HB Temperature        | `props_parser_float` |
+| `lps22hb_temperature`    | `temperature_1`      | LPS22HB Temperature        | `props_parser_float` |
 | `ads1015_a0`             | `analog_0`           | ADS1015 Analog input 0     | `props_parser_int`   |
 | `ads1015_a1`             | `analog_1`           | ADS1015 Analog input 1     | `props_parser_int`   |
 | `ads1015_a2`             | `analog_2`           | ADS1015 Analog input 2     | `props_parser_int`   |
 | `ads1015_a3`             | `analog_3`           | ADS1015 Analog input 3     | `props_parser_int`   |
+| `shtc3_temperature`      | `temperature_2`      | SHTC3 Temperature          | `props_parser_float` |
+| `shtc3_humidity`         | `humidity`           | SHTC3 Humidity             | `props_parser_float` |
 | `tcs34087_rgb_r`         | `lux_rgb_r`          | TCS34087 RGB r             | `props_parser_int`   |
 | `tcs34087_rgb_g`         | `lux_rgb_g`          | TCS34087 RGB g             | `props_parser_int`   |
 | `tcs34087_rgb_b`         | `lux_rgb_b`          | TCS34087 RGB b             | `props_parser_int`   |
@@ -60,7 +62,7 @@ For each property are defined following fields:
 | `tcs34087_rgb565`        | `lux_rgb_565`        | TCS34087 RGB 565           | `props_parser_int`   |
 | `tcs34087_rgb888`        | `lux_rgb_888`        | TCS34087 RGB 888           | `props_parser_int`   |
 | `tcs34087_lux`           | `lux`                | TCS34087 Lux               | `props_parser_int`   |
-| `tcs34087_lux_interrupt` | `lux_interrupt`      | TCS34087 Lux interrupt     | `props_parser_float` |
+| `tcs34087_lux_interrupt` | `lux_interrupt`      | TCS34087 Lux interrupt     | `props_parser_int`   |
 | `tcs34087_color_temp`    | `lux_color_temp`     | TCS34087 Color temperature | `props_parser_float` |
 
 Parser methods are defined into [_parsers.py](/fw_sensehat/sense/_parsers.py)
@@ -84,11 +86,9 @@ For each calculated property are defined following fields:
 * `depends_on`: the list of properties on which the current property depends
 * `calculator`: the method to use to elaborate the property
 
-| Prop.'s Name on DBus | Description | Depends on | Calculator method |
-|----------------------|-------------|------------|-------------------|
-| --                   | --          | --         | --                |
-
-**No calculated properties are used from this script. **
+| Prop.'s Name on DBus | Description             | Depends on                       | Calculator method  |
+|----------------------|-------------------------|----------------------------------|--------------------|
+| `temperature`        | Environment temperature | `temperature_2`, `temperature_1` | `calc_temperature` |
 
 All methods used to elaborate the properties, receives the properties cache as
 param. So they can use that list to get all properties read from the device (
@@ -111,16 +111,18 @@ property, the table define if it will be exported by the column's device type.
 | `gyroscope_x`        | int    | Yes         |
 | `gyroscope_y`        | int    | Yes         |
 | `gyroscope_z`        | int    | Yes         |
-| `magnetic_x`         | double | Yes         |
-| `magnetic_y`         | double | Yes         |
-| `magnetic_z`         | double | Yes         |
+| `magnetic_x`         | int    | Yes         |
+| `magnetic_y`         | int    | Yes         |
+| `magnetic_z`         | int    | Yes         |
 | `qmu_temperature`    | double | Yes         |
 | `pressure`           | double | Yes         |
-| `temperature`        | double | Yes         |
+| `temperature_1`      | double | Yes         |
 | `analog_0`           | int    | Yes         |
 | `analog_1`           | int    | Yes         |
 | `analog_2`           | int    | Yes         |
 | `analog_3`           | int    | Yes         |
+| `temperature_2`      | double | Yes         |
+| `humidity`           | double | Yes         |
 | `lux_rgb_r`          | int    | Yes         |
 | `lux_rgb_g`          | int    | Yes         |
 | `lux_rgb_b`          | int    | Yes         |
@@ -128,5 +130,5 @@ property, the table define if it will be exported by the column's device type.
 | `lux_rgb_565`        | int    | Yes         |
 | `lux_rgb_888`        | int    | Yes         |
 | `lux`                | int    | Yes         |
-| `lux_interrupt`      | double | Yes         |
+| `lux_interrupt`      | int    | Yes         |
 | `lux_color_temp`     | double | Yes         |
